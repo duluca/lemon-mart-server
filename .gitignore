@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+db-data
+.bak
+
+!example.env
+!server-example.env
