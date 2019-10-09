@@ -43,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duluca/lemon-mart.git"
+    "url": "git+https://github.com/duluca/lemon-mart-server.git"
   },
   "keywords": [
     "angular",
@@ -54,9 +54,9 @@
   "author": "Doguhan Uluca",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/duluca/lemon-mart/issues"
+    "url": "https://github.com/duluca/lemon-mart-server/issues"
   },
-  "homepage": "https://github.com/duluca/lemon-mart#readme",
+  "homepage": "https://github.com/duluca/lemon-mart-server#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
