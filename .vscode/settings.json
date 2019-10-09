@@ -1,0 +1,70 @@
+{
+  "debug.openExplorerOnEnd": true,
+
+  "editor.tabSize": 2,
+  "editor.rulers": [90],
+  "editor.autoIndent": true,
+  "editor.cursorBlinking": "solid",
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false
+  },
+
+  "explorer.openEditors.visible": 0,
+
+  "files.trimTrailingWhitespace": true,
+  "files.autoSave": "onFocusChange",
+
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  "npm.enableScriptExplorer": true,
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "workbench.iconTheme": "material-icon-theme",
+
+  "auto-close-tag.SublimeText3Mode": true,
+  "html.autoClosingTags": false,
+
+  "prettier.printWidth": 90,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.tslintIntegration": true,
+  "prettier.disableLanguages": ["html"],
+
+  "beautify.language": {
+    "html": ["html"]
+  },
+
+  "peacock.affectActivityBar": true,
+  "peacock.affectStatusBar": true,
+  "peacock.affectTitleBar": false,
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#5a71fa",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#fca2af",
+    "activityBarBadge.foreground": "#15202b",
+    "statusBar.background": "#2946f8",
+    "statusBarItem.hoverBackground": "#5a71fa",
+    "statusBar.foreground": "#e7e7e7"
+  },
+
+  "files.exclude": {
+    "server/**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "server/**/*.js.map": {
+      "when": "$(basename)"
+    }
+  },
+  "ng-evergreen.checkFrequency": "Daily",
+  "ng-evergreen.upgradeChannel": "Latest",
+  "peacock.color": "#2946f8"
+
+}

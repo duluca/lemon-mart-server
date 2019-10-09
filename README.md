@@ -2,9 +2,11 @@
 
 > Easy to learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
+[![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
+
 **Watch the video:** [Do More with Less: Full Stack TypeScript](https://youtu.be/gi1neXh0uKE?list=PLtevgo7IoQizTQdXtRKEXGguTQbL0F01_)
 
-**Get the book:** Minimal MEAN is referenced in my book _Angular for Enterprise-Ready Web Applications_. You can get it on https://AngularForEnterprise.com.
+**Get the book:** Lemon Mart Server is covered in my book _Angular for Enterprise-Ready Web Applications_. You can get it on https://AngularForEnterprise.com.
 
 ## Setup
 
@@ -70,7 +72,7 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
 
 ## Continuous Integration and Hosting
 
-* CI is implemented on CircleCI [![CircleCI](https://circleci.com/gh/duluca/minimal-mean/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/minimal-mean/tree/master)
+* CI is implemented on CircleCI [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
 * Hosted on AWS ECS
   * You'll need to individually publish your Docker containers to ECS
   * Then update `docker-compose.aws.yml` to pull from the ECS repository

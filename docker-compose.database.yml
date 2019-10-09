@@ -1,0 +1,9 @@
+version: '3'
+services:
+  database:
+    image: excellalabs/mongo:4.2.0
+    env_file: .env
+    ports:
+      - '27017:27017'
+    volumes:
+      - '/tmp/lemon-mart-db:/data/db'

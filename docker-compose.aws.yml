@@ -1,0 +1,28 @@
+version: '3'
+services:
+  web-app:
+    image: duluca/lemon-mart-web-app
+    ports:
+      - '80:80'
+    links:
+      - server
+    depends_on:
+      - server
+
+  server:
+    image: duluca/lemon-mart-server
+    env_file: .env
+    ports:
+      - '3000:3000'
+    links:
+      - database
+    depends_on:
+      - database
+
+  database:
+    image: excellalabs/mongo:4.2.0
+    env_file: .env
+    ports:
+      - '27017:27017'
+    volumes:
+      - '/tmp/lemon-mart-db:/data/db'
