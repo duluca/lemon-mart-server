@@ -15,9 +15,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: rm -rf web-app
-
-      - run: npm run webapp:init
+      - run: npm run webapp:update
 
       - run: yes | npm install || true
 
