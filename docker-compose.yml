@@ -1,11 +1,9 @@
 version: '3'
 services:
   web-app:
-    build: web-app
-    #   dockerfile: Dockerfile
-    #   context: ../lemon-mart
-    # ports:
-    #   - '8080:3000'
+    build:
+      context: ./web-app
+      dockerfile: nginx.Dockerfile
     ports:
       - '8080:80'
     links:
