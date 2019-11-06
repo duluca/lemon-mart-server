@@ -1,31 +1,116 @@
-version: 2
+version: 2.1
+orbs:
+  coveralls: coveralls/coveralls@1.0.4
 jobs:
-  build:
+  checkout_code:
     docker:
-      - image: circleci/node:lts-browsers
-
+      - image: circleci/node:lts
     working_directory: ~/repo
-
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      # Update git web-app submodule
       - run: npm run webapp:update
 
-      - run: npm run audit:ci
+  build_server:
+    docker:
+      - image: circleci/node:lts
 
-      - run: npm install:ci
+    working_directory: ~/repo/server
+
+    steps:
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-server-dependencies-
+
+      # check npm dependencies for security risks - run 'npm audit' to fix
+      - run: npx audit-ci --low --report-type full
+
+      # install dependecies
+      - run: npm ci
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-server-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run build
+      # ensure code formatting standards are adhered to - run 'npm run standardize' to fix
+      - run: npm run standardize:ci
 
-      - run: npm test
+      # run tests and store test results
+      - run: npm run pretest
+      - run: npm run test:ci
+      - store_test_results:
+          path: ./test_results/server
+
+      # run code coverage and store coverage report
+      - run: npm run test:nyc
+      - store_artifacts:
+          path: ./coverage/server
+
+      # upload coverage report to coveralls for readme badge support
+      # requires config.yml version 2.1 and orbs: coveralls: coveralls/coveralls@1.0.4
+      # requires coveralls account and token specific to repo to be stored in CircleCI
+      # - coveralls/upload
+  build_webapp:
+    docker:
+      - image: circleci/node:lts-browsers
+
+    working_directory: ~/repo/web-app
+
+    steps:
+      - restore_cache:
+          keys:
+            - v1-webapp-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-webapp-dependencies-
+
+      - run: npm ci
+
+      # force update the webdriver, so it runs with latest version of Chrome
+      - run: cd ./node_modules/protractor && npm i webdriver-manager@latest
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-webapp-dependencies-{{ checksum "package.json" }}
+
+      - run: npm run standardize:ci
+
+      - run: npm run build:prod
+
+      - run: npm test -- --watch=false
+
+      - run: npm run e2e
+
+      - run: tar zcf dist.tar.gz dist
+
+      - store_artifacts:
+          path: dist.tar.gz
+  deploy:
+    docker:
+        - image: circleci/node:lts
+
+      working_directory: ~/repo
+
+      steps:
+        - run: echo 'Deploy logic goes here'
+workflows:
+  version: 2
+  build-test-and-approval-deploy:
+    jobs:
+      - checkout_code
+      - build_server:
+          requires:
+            - checkout_code
+      - build_webapp:
+          requires:
+            - checkout_code
+      - hold:
+          type: approval
+          requires:
+           - build_server
+           - build_webapp
+      - deploy:
+          requires:
+            - hold
