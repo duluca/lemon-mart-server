@@ -38,8 +38,8 @@ describe('Integration', () => {
     }
 
     try {
-      const user = new User()
-      await user.create(userData)
+      const user = new User(userData)
+      await user.create()
     } catch (ex) {
       actualException = ex
     }
@@ -54,14 +54,13 @@ describe('Integration', () => {
 
     try {
       for (let i = 0; i < expectedRecordCount; i++) {
-        const user = new User()
         const userData: Partial<IUser> = {
           name: { first: `${i}`, last: `${i}` },
           email: `${i}@gmail.com`,
           role: Role.Manager,
         }
-
-        await user.create(userData)
+        const user = new User(userData)
+        await user.create()
       }
     } catch (ex) {
       actualException = ex
