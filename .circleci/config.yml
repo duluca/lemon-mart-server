@@ -8,16 +8,18 @@ jobs:
 
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      # Update git web-app submodule
       - run: npm run webapp:update
 
-      - run: yes | npm install || true
+      - run: npm run audit:ci
+
+      - run: npm install:ci
 
       - save_cache:
           paths:
@@ -25,4 +27,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm run build
+
       - run: npm test

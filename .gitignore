@@ -36,9 +36,14 @@ node_modules
 server/**/*.js
 server/**/*.js.map
 
+dist
+test_results
+coverage
+.nyc_output
 .env
 .bak
 db-data
 
 !example.env
 !server-example.env
+

@@ -1,6 +1,6 @@
 {
-  "name": "lemon-mart",
-  "version": "2.1.0",
+  "name": "lemon-mart-server",
+  "version": "1.0.0",
   "description": "Easy to learn and use full-stack TypeScript with Angular",
   "main": "index.js",
   "config": {
@@ -9,6 +9,9 @@
     "webAppGitUrl": "https://github.com/duluca/lemon-mart.git"
   },
   "scripts": {
+    "standardize:ci": "npm run standardize:ci --prefix ./server && npm run standardize:ci --prefix ./web-app",
+    "install:ci": "npm ci && npm ci --prefix ./server && npm ci -- prefix ./web-app",
+    "audit:ci": "audit-ci --low --report-type full && audit-ci --low --report-type full --directory ./server && audit-ci --low --report-type full --directory ./web-app",
     "init:env": "init-dev-env generate-dot-env example.env -f && init-dev-env generate-dot-env server-example.env --source=. --target=server -f",
     "postinstall": "npm-recursive-install --skip-root",
     "build": "npm run build --prefix ./server && npm run build --prefix ./web-app -- --prod",
@@ -21,7 +24,7 @@
     "start:database": "docker-compose -f docker-compose.database.yml up --build",
     "publish:aws": "cross-conf-env ecs-cli compose --file docker-compose.aws.yml -p $npm_package_name -c $npm_package_config_awsEcsCluster -r $npm_package_config_awsRegion create",
     "start:docker:database": "docker run --env-file .env -d -p '27017:27017' -v '/tmp/lemon-mart-db:/data/db' excellalabs/mongo",
-    "rimraf": "rimraf node_modules && rimraf server/node_modules && rimraf web-app/node_modules",
+    "rimraf:node_modules": "rimraf node_modules && rimraf server/node_modules && rimraf web-app/node_modules",
     "prewebapp:update": "git pull",
     "webapp:update": "git submodule update --init --recursive",
     "webapp:clean": "cross-conf-env rimraf web-app && git rm -r --cached web-app",

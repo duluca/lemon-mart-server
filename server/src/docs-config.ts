@@ -1,8 +1,7 @@
 import * as swaggerJsdoc from 'swagger-jsdoc'
-
 import { Options } from 'swagger-jsdoc'
 
-const packageJson = require('../package.json')
+import * as packageJson from '../package.json'
 
 const options: Options = {
   swaggerDefinition: {
@@ -20,7 +19,7 @@ const options: Options = {
       },
     ],
   },
-  apis: ['**/models/*.js', '**/routes/*.js'],
+  apis: ['**/models/*.js', '**/v1/routes/*.js'],
 }
 
 export const specs = swaggerJsdoc(options)

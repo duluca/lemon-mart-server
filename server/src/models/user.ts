@@ -1,78 +1,142 @@
 import * as bcrypt from 'bcryptjs'
-
-import { AggregationCursor, ObjectID } from 'mongodb'
 import { CollectionFactory, Document, IDocument } from 'document-ts'
-
+import { AggregationCursor, ObjectID } from 'mongodb'
+// import { Role } from '../../../web-app/src/app/auth/role.enum'
 import { v4 as uuid } from 'uuid'
 
+import { Role } from '../models/enums'
+import { IPhone, Phone } from './phone'
+
+// import { IName, IUser } from '../../../web-app/src/app/user/user/user'
+// export interface IDbUser extends IUser, IDocument {}
+
+export interface IName {
+  first: string
+  middle?: string
+  last: string
+}
+
 export interface IUser extends IDocument {
-  email?: string
-  firstName?: string
-  lastName?: string
-  role?: string
+  email: string
+  name: IName
+  picture: string
+  role: Role
+  userStatus: boolean
+  dateOfBirth: Date
+  address: {
+    line1: string
+    line2?: string
+    city: string
+    state: string
+    zip: string
+  }
+  phones?: IPhone[]
 }
 
 /**
  * @swagger
  * components:
  *   schemas:
+ *     Name:
+ *       type: object
+ *       properties:
+ *         first:
+ *           type: string
+ *         middle:
+ *           type: string
+ *         last:
+ *           type: string
+ *       required:
+ *         - first
+ *         - last
  *     User:
  *       type: object
- *       required:
- *         - email
- *         - firstName
- *         - lastName
- *         - role
  *       properties:
+ *         _id:
+ *           type: string
  *         email:
  *           type: string
- *           format: email
- *         firstName:
- *           type: string
- *         lastName:
+ *         name:
+ *           $ref: "#/components/schemas/Name"
+ *         picture:
  *           type: string
  *         role:
+ *           $ref: "#/components/schemas/Role"
+ *         userStatus:
+ *           type: boolean
+ *         dateOfBirth:
  *           type: string
- *         password:
- *           type: string
- *           format: password
+ *           format: date
+ *         address:
+ *           type: object
+ *           properties:
+ *             line1:
+ *               type: string
+ *             line2:
+ *               type: string
+ *             city:
+ *               type: string
+ *             state:
+ *               type: string
+ *             zip:
+ *               type: string
+ *           required:
+ *             - line1
+ *             - city
+ *             - state
+ *             - zip
+ *         phones:
+ *           type: array
+ *           items:
+ *             $ref: "#/components/schemas/Phone"
+ *       required:
+ *         - email
+ *         - name
+ *         - role
+ *         - userStatus
+ *     ArrayOfUser:
+ *       type: array
+ *       items:
+ *         $ref: "#/components/schemas/User"
  *     Users:
  *       type: object
  *       properties:
  *         total:
  *           type: number
  *           format: int32
- *       items:
- *         $ref: "#/components/schemas/ArrayOfUser"
- *     ArrayOfUser:
- *       type: array
- *       items:
- *         $ref: "#/components/schemas/User"
+ *         items:
+ *           $ref: "#/components/schemas/ArrayOfUser"
  */
 export class User extends Document<IUser> implements IUser {
   static collectionName = 'users'
-  private password = ''
-
-  constructor(
-    public email = '',
-    public firstName = '',
-    public lastName = '',
-    public role = ''
-  ) {
-    super(User.collectionName, {
-      email,
-      firstName,
-      lastName,
-      role,
-    } as IUser)
+  private password: string
+  public email: string
+  public name: IName
+  public picture: string
+  public role: Role
+  public dateOfBirth: Date
+  public userStatus: boolean
+  public address: {
+    line1: string
+    city: string
+    state: string
+    zip: string
   }
 
-  public static Builder(user: IUser) {
-    if (!user) {
-      return new User()
+  public phones?: IPhone[]
+
+  constructor(user?: Partial<IUser>) {
+    super(User.collectionName, user)
+  }
+
+  fillData(data?: Partial<IUser>) {
+    if (data) {
+      Object.assign(this, data)
     }
 
-    return new User(user.email, user.firstName, user.lastName, user.role)
+    if (this.phones) {
+      this.phones = this.hydrateInterfaceArray(Phone, Phone.Build, this.phones)
+    }
   }
 
   getCalculatedPropertiesToInclude(): string[] {
@@ -84,27 +148,23 @@ export class User extends Document<IUser> implements IUser {
   }
 
   public get fullName(): string {
-    return `${this.firstName} ${this.lastName}`
+    if (this.name.middle) {
+      return `${this.name.first} ${this.name.middle} ${this.name.last}`
+    }
+    return `${this.name.first} ${this.name.last}`
   }
 
-  async create(
-    firstName: string,
-    lastName: string,
-    email: string,
-    role: string,
-    password?: string
-  ) {
-    this.firstName = firstName
-    this.lastName = lastName
-    this.email = email
-    this.role = role
+  async create(id?: string, password?: string, upsert = false) {
+    if (id) {
+      this._id = new ObjectID(id)
+    }
 
     if (!password) {
       password = uuid()
     }
 
     this.password = await this.setPassword(password)
-    await this.save()
+    await this.save({ upsert })
   }
 
   async resetPassword(newPassword: string) {
@@ -113,14 +173,14 @@ export class User extends Document<IUser> implements IUser {
   }
 
   private setPassword(newPassword: string): Promise<string> {
-    return new Promise<string>(function(resolve, reject) {
-      bcrypt.genSalt(10, function(err, salt) {
+    return new Promise<string>((resolve, reject) => {
+      bcrypt.genSalt(10, (err, salt) => {
         if (err) {
           return reject(err)
         }
-        bcrypt.hash(newPassword, salt, function(err, hash) {
-          if (err) {
-            return reject(err)
+        bcrypt.hash(newPassword, salt, (hashError, hash) => {
+          if (hashError) {
+            return reject(hashError)
           }
           resolve(hash)
         })
@@ -129,9 +189,9 @@ export class User extends Document<IUser> implements IUser {
   }
 
   comparePassword(password: string): Promise<boolean> {
-    let user = this
-    return new Promise(function(resolve, reject) {
-      bcrypt.compare(password, user.password, function(err, isMatch) {
+    const user = this
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) {
           return reject(err)
         }
@@ -147,7 +207,7 @@ export class User extends Document<IUser> implements IUser {
 
 class UserCollectionFactory extends CollectionFactory<User> {
   constructor(docType: typeof User) {
-    super(User.collectionName, docType, ['firstName', 'lastName', 'email'])
+    super(User.collectionName, docType, ['name.first', 'name.last', 'email'])
   }
 
   async createIndexes() {
@@ -160,13 +220,13 @@ class UserCollectionFactory extends CollectionFactory<User> {
       },
       {
         key: {
-          firstName: 'text',
-          lastName: 'text',
+          'name.first': 'text',
+          'name.last': 'text',
           email: 'text',
         },
         weights: {
-          lastName: 4,
-          firstName: 2,
+          'name.last': 4,
+          'name.first': 2,
           email: 1,
         },
         name: 'TextIndex',
@@ -175,12 +235,13 @@ class UserCollectionFactory extends CollectionFactory<User> {
   }
 
   // This is a contrived example for demonstration purposes
-  // It is possible to execute far more sophisticated and high performance queries using Aggregation in MongoDB
+  // It is possible to execute far more sophisticated and
+  // high performance queries using Aggregation in MongoDB
   // Documentation: https://docs.mongodb.com/manual/aggregation/
   userSearchQuery(
     searchText: string
   ): AggregationCursor<{ _id: ObjectID; email: string }> {
-    let aggregateQuery = [
+    const aggregateQuery = [
       {
         $match: {
           $text: { $search: searchText },

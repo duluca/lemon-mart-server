@@ -1,6 +1,6 @@
 {
   "name": "lemon-mart-server",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "description": "Easy to learn and use full-stack TypeScript with Mongo, Express, Angular and Node",
   "main": "index.js",
   "engines": {
@@ -14,15 +14,21 @@
     "internalContainerPort": "3000"
   },
   "scripts": {
+    "standardize": "import-sort --write \"{src,tests}/**/*.ts\" && prettier-tslint fix \"{src,tests}/**/*.ts\"",
+    "standardize:ci": "import-sort -l \"{src,tests}/**/*.ts\" && prettier-tslint check \"{src,tests}/**/*.ts\"",
     "prestart": "npm run build",
-    "start": "env-cmd node dist/index.js",
+    "start": "env-cmd node dist/src/index.js",
     "prebuild": "rimraf dist",
     "build": "tsc -p ./tsconfig.server.json",
+    "copy:assets": "copyfiles -E -u 1 \"./src/public/**/*\" \"./dist/\"",
+    "postbuild": "npm run copy:assets",
     "build:test": "tsc -p tests/tsconfig.spec.json",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "pretest": "npm run build && npm run build:test",
-    "test": "JASMINE_CONFIG_PATH=./jasmine.json jasmine",
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=./jasmine.json",
+    "test:ci": "ts-node ./node_modules/jasmine-xml-reporter/bin/jasmine.js --config=./jasmine.json --junitreport --output=test_results/",
+    "test:nyc": "nyc ts-node node_modules/jasmine/bin/jasmine --config=./jasmine.json",
     "predocker:build": "npm test",
     "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
@@ -58,13 +64,13 @@
   },
   "homepage": "https://github.com/duluca/lemon-mart-server#readme",
   "dependencies": {
+    "@types/express-serve-static-core": "^4.16.11",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "document-ts": "^4.0.0",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
-    "mongodb": "^3.3.2",
+    "mongodb": "^3.3.3",
     "morgan": "^1.9.1",
     "saslprep": "^1.0.3",
     "swagger-jsdoc": "^3.4.0",
@@ -72,31 +78,80 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^0.1.3",
     "@types/bcrypt": "^3.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "1.17.1",
     "@types/cors": "^2.8.6",
     "@types/errorhandler": "0.0.32",
-    "@types/express": "^4.17.1",
-    "@types/jasmine": "^3.4.2",
-    "@types/lodash": "^4.14.142",
+    "@types/jasmine": "^3.4.6",
+    "@types/lodash": "^4.14.144",
     "@types/mime": "2.0.1",
-    "@types/mongodb": "^3.3.6",
+    "@types/mongodb": "^3.3.8",
     "@types/morgan": "^1.7.37",
-    "@types/node": "^12.7.12",
+    "@types/node": "^12.12.6",
     "@types/swagger-jsdoc": "^3.0.2",
     "@types/swagger-ui-express": "^3.0.1",
-    "@types/uuid": "^3.4.5",
+    "@types/uuid": "^3.4.6",
+    "audit-ci": "^2.4.2",
+    "copyfiles": "^2.1.1",
     "cross-conf-env": "^1.1.2",
     "dev-norms": "^1.7.0",
+    "document-ts": "^4.5.0",
     "env-cmd": "^10.0.1",
+    "import-sort": "^6.0.0",
+    "import-sort-cli": "^6.0.0",
+    "import-sort-parser-typescript": "^6.0.0",
+    "import-sort-style-module": "^6.0.0",
     "jasmine": "^3.5.0",
-    "jasmine-core": "^3.5.0",
-    "jasmine-spec-reporter": "^4.2.1",
-    "mongodb-memory-server": "^5.2.7",
-    "npm-check-updates": "^3.1.24",
+    "jasmine-node": "^3.0.0",
+    "jasmine-xml-reporter": "^1.2.1",
+    "mongodb-memory-server": "^6.0.1",
     "npm-run-all": "^4.1.5",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "prettier-tslint": "^0.4.2",
     "rimraf": "^3.0.0",
-    "typescript": "^3.6.3"
+    "source-map-support": "^0.5.16",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  },
+  "importSort": {
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "module",
+      "options": {}
+    }
+  },
+  "prettier": {
+    "printWidth": 90,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "parser": "typescript"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "all": true,
+    "check-coverage": true,
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/tests",
+      "specs.js",
+      "**/coverage"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "branches": 38,
+    "lines": 50,
+    "functions": 28,
+    "statements": 43
   }
 }

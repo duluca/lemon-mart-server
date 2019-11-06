@@ -10,13 +10,22 @@
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": false
+    "source.organizeImports": false,
+    "source.fixAll.tslint": true
   },
 
   "explorer.openEditors.visible": 0,
 
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "onFocusChange",
+  "files.exclude": {
+    "server/**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "server/**/*.js.map": {
+      "when": "$(basename)"
+    }
+  },
 
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
@@ -34,7 +43,6 @@
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
-  "prettier.tslintIntegration": true,
   "prettier.disableLanguages": ["html"],
 
   "beautify.language": {
@@ -54,17 +62,8 @@
     "statusBarItem.hoverBackground": "#5a71fa",
     "statusBar.foreground": "#e7e7e7"
   },
+  "peacock.color": "#2946f8",
 
-  "files.exclude": {
-    "server/**/*.js": {
-      "when": "$(basename).ts"
-    },
-    "server/**/*.js.map": {
-      "when": "$(basename)"
-    }
-  },
   "ng-evergreen.checkFrequency": "Daily",
-  "ng-evergreen.upgradeChannel": "Latest",
-  "peacock.color": "#2946f8"
-
+  "ng-evergreen.upgradeChannel": "Latest"
 }
