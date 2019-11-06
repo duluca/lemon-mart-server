@@ -2,14 +2,6 @@ version: 2.1
 orbs:
   coveralls: coveralls/coveralls@1.0.4
 jobs:
-  checkout_code:
-    docker:
-      - image: circleci/node:lts
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run: npm run webapp:update
-
   build_server:
     docker:
       - image: circleci/node:lts
@@ -17,6 +9,7 @@ jobs:
     working_directory: ~/repo/server
 
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ checksum "package.json" }}
@@ -59,6 +52,8 @@ jobs:
     working_directory: ~/repo/web-app
 
     steps:
+      - checkout
+      - run: npm run webapp:update --prefix ../
       - restore_cache:
           keys:
             - v1-webapp-dependencies-{{ checksum "package.json" }}
@@ -97,13 +92,8 @@ workflows:
   version: 2
   build-test-and-approval-deploy:
     jobs:
-      - checkout_code
       - build_server:
-          requires:
-            - checkout_code
       - build_webapp:
-          requires:
-            - checkout_code
       - hold:
           type: approval
           requires:
