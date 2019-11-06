@@ -9,7 +9,8 @@ jobs:
     working_directory: ~/repo/server
 
     steps:
-      - checkout
+      - checkout:
+        path: ~/repo
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ checksum "package.json" }}
@@ -52,7 +53,8 @@ jobs:
     working_directory: ~/repo/web-app
 
     steps:
-      - checkout
+      - checkout:
+        path: ~/repo
       - run: npm run webapp:update --prefix ../
       - restore_cache:
           keys:
