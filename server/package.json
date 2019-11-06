@@ -142,16 +142,16 @@
     "exclude": [
       "**/*.d.ts",
       "**/tests",
-      "specs.js",
+      "**/dist",
       "**/coverage"
     ],
     "reporter": [
       "lcov",
       "text"
     ],
-    "branches": 38,
-    "lines": 50,
-    "functions": 28,
-    "statements": 43
+    "branches": 30,
+    "lines": 30,
+    "functions": 30,
+    "statements": 30
   }
 }
