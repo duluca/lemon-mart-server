@@ -44,23 +44,19 @@ jobs:
 
       # upload coverage report to coveralls for readme badge support
       # requires config.yml version 2.1 and orbs: coveralls: coveralls/coveralls@1.0.4
-      # requires coveralls account and token specific to repo to be stored in CircleCI
-      # - coveralls/upload
-  build_webapp:
+      # requires coveralls account and token named COVERALLS_REPO_TOKEN specific to repo to be stored in CircleCI
+      - coveralls/upload
+build_webapp:
     docker:
       - image: circleci/node:lts-browsers
-
-    working_directory: ~/repo/web-app
-
+    working_directory: ~/repo
     steps:
-      - checkout:
-          path: ~/repo
-      - run: npm run webapp:update --prefix ../
+      - checkout
       - restore_cache:
           keys:
-            - v1-webapp-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-webapp-dependencies-
+            - v1-dependencies-
 
       - run: npm ci
 
@@ -70,26 +66,49 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-webapp-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm run standardize:ci
-
       - run: npm run build:prod
-
       - run: npm test -- --watch=false
-
+      - run: npm run test:coverage -- --watch=false
       - run: npm run e2e
 
-      - run: tar zcf dist.tar.gz dist
+      # - store_test_results:
+      #     path: ./test_results
+      # - store_artifacts:
+      #     path: ./coverage
 
+      # upload coverage report to coveralls for readme badge support
+      # requires config.yml version 2.1 and orbs: coveralls: coveralls/coveralls@1.0.4
+      # requires coveralls account and token named COVERALLS_REPO_TOKEN specific to repo to be stored in CircleCI
+      # - coveralls/upload
+
+      - run:
+          name: Tar & Gzip compiled app
+          command: tar zcf dist.tar.gz dist/lemon-mart
       - store_artifacts:
           path: dist.tar.gz
+
+      - run:
+          name: Move compiled app to workspace
+          command: |
+            set -exu
+            mkdir -p /tmp/workspace/dist
+            mv dist/lemon-mart /tmp/workspace/dist/
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - dist/lemon-mart
   deploy:
     docker:
       - image: circleci/node:lts
     working_directory: ~/repo
     steps:
-      - run: echo 'Deploy logic goes here'
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: npx now --token $NOW_TOKEN --platform-version 2 --prod --name lemon-mart /tmp/workspace/dist/lemon-mart
+
 workflows:
   version: 2
   build-test-and-approval-deploy:
@@ -101,6 +120,9 @@ workflows:
           requires:
             - build_server
             - build_webapp
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - hold
