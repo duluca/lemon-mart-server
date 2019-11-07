@@ -18,7 +18,7 @@ const router = Router()
  *       schema:
  *         type: string
  *       description: Search text to filter the result set by
- *     offsetParam:
+ *     skipParam:
  *       in: query
  *       name: skip
  *       required: false
