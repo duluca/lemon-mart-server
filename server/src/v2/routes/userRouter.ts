@@ -47,7 +47,7 @@ const router = Router()
 
 /**
  * @swagger
- * /v1/users:
+ * /v2/users:
  *   get:
  *     description: |
  *       Searches, sorts, paginates and returns a summary of `User` objects.
@@ -98,7 +98,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /v1/users/{id}:
+ * /v2/users/{id}:
  *   get:
  *     description: Gets a `User` object by id
  *     parameters:
@@ -127,7 +127,7 @@ router.get('/:userId', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /v1/users:
+ * /v2/users:
  *   post:
  *     summary: Create a new `User`
  *     requestBody:

@@ -94,18 +94,6 @@ export interface IUser extends IDocument {
  *         - name
  *         - role
  *         - userStatus
- *     ArrayOfUser:
- *       type: array
- *       items:
- *         $ref: "#/components/schemas/User"
- *     Users:
- *       type: object
- *       properties:
- *         total:
- *           type: number
- *           format: int32
- *         items:
- *           $ref: "#/components/schemas/ArrayOfUser"
  */
 export class User extends Document<IUser> implements IUser {
   static collectionName = 'users'
