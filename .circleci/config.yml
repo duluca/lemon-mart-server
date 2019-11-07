@@ -35,12 +35,12 @@ jobs:
       - run: npm run pretest
       - run: npm run test:ci
       - store_test_results:
-          path: ./test_results/server
+          path: ./test_results
 
       # run code coverage and store coverage report
       - run: npm run test:nyc
       - store_artifacts:
-          path: ./coverage/server
+          path: ./coverage
 
       # upload coverage report to coveralls for readme badge support
       # requires config.yml version 2.1 and orbs: coveralls: coveralls/coveralls@1.0.4
