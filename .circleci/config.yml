@@ -49,9 +49,11 @@ jobs:
   build_webapp:
     docker:
       - image: circleci/node:lts-browsers
-    working_directory: ~/repo
+    working_directory: ~/repo/web-app
     steps:
-      - checkout
+      - checkout:
+          path: ~/repo
+      - run: npm run webapp:update --prefix ../
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
