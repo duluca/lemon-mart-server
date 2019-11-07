@@ -46,7 +46,7 @@ jobs:
       # requires config.yml version 2.1 and orbs: coveralls: coveralls/coveralls@1.0.4
       # requires coveralls account and token named COVERALLS_REPO_TOKEN specific to repo to be stored in CircleCI
       - coveralls/upload
-build_webapp:
+  build_webapp:
     docker:
       - image: circleci/node:lts-browsers
     working_directory: ~/repo
