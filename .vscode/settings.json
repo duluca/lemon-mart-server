@@ -39,10 +39,6 @@
   "auto-close-tag.SublimeText3Mode": true,
   "html.autoClosingTags": false,
 
-  "beautify.language": {
-    "html": ["html"]
-  },
-
   "peacock.affectActivityBar": true,
   "peacock.affectStatusBar": true,
   "peacock.affectTitleBar": false,
