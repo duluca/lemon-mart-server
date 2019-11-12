@@ -17,9 +17,17 @@ const options: Options = {
         url: 'http://localhost:3000',
         description: 'Local environment',
       },
+      {
+        url: 'https://mystagingserver.com',
+        description: 'Staging environment',
+      },
+      {
+        url: 'https://myprodserver.com',
+        description: 'Production environment',
+      },
     ],
   },
-  apis: ['**/models/*.js', '**/v1/routes/*.js'],
+  apis: ['**/models/*.js', '**/v1/routes/*.js', '**/v2/routes/*.js'],
 }
 
 export const specs = swaggerJsdoc(options)

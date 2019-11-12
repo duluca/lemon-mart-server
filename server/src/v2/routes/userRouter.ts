@@ -42,7 +42,8 @@ const router = Router()
  *       required: false
  *       schema:
  *         type: string
- *       description: Name of a column to sort ascending. Prepend column name with a dash to sort descending.
+ *       description: Name of a column to sort ascending.
+ *                    Prepend column name with a dash to sort descending.
  */
 
 /**
