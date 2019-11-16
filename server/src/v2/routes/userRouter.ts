@@ -155,4 +155,49 @@ router.post('/', async (req: Request, res: Response) => {
   }
 })
 
+/**
+ * @swagger
+ * /v2/users/{id}:
+ *   put:
+ *     summary: Updates an existing `User`
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User's unique id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *        '200':
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.put('/:userId', async (req: Request, res: Response) => {
+  const userData = req.body as User
+  delete userData._id
+  await UserCollection.findOneAndUpdate(
+    { _id: new ObjectID(req.params.userId) },
+    {
+      $set: userData,
+    }
+  )
+
+  const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
+
+  if (!user) {
+    res.status(404).send({ message: 'User not found.' })
+  } else {
+    res.send(user)
+  }
+})
+
 export default router

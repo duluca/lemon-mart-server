@@ -26,6 +26,7 @@ export async function initializeDefaultUser() {
     role: Role.Manager,
     dateOfBirth: new Date(1980, 1, 1),
     userStatus: true,
+    level: 2,
     address: {
       line1: '101 Sesame St.',
       city: 'Bethesda',
@@ -40,5 +41,5 @@ export async function initializeDefaultUser() {
     ],
   })
 
-  await defaultUser.create('5da01751da27cc462d265913', 'l0l1pop', true)
+  await defaultUser.create('5da01751da27cc462d265913', 'l0l1pop!!', true)
 }

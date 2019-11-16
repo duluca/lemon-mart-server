@@ -11,6 +11,7 @@ export const AuthenticationRequiredMessage = 'Request has not been authenticated
 interface IJwtPayload {
   email: string
   role: string
+  picture: string
   iat: number
   exp: number
   sub: string
@@ -21,6 +22,7 @@ export function createJwt(user: IUser): Promise<string> {
     const payload = {
       email: user.email,
       role: user.role,
+      picture: user.picture
     }
 
     jwt.sign(

@@ -1,16 +1,16 @@
 {
-    "recommendations": [
-        "johnpapa.angular-essentials",
-        "PKief.material-icon-theme",
-        "formulahendry.auto-close-tag",
-        "ms-azuretools.vscode-docker",
-        "eamodio.gitlens",
-        "WallabyJs.quokka-vscode",
-        "amatiasq.sort-imports",
-        "DSKWRK.vscode-generate-getter-setter",
-        "esbenp.prettier-vscode",
-        "HookyQR.beautify",
-        "expertly-simple.ng-evergreen",
-        "msjsdiag.debugger-for-edge"
-    ]
+  "recommendations": [
+    "johnpapa.angular-essentials",
+    "PKief.material-icon-theme",
+    "formulahendry.auto-close-tag",
+    "ms-azuretools.vscode-docker",
+    "eamodio.gitlens",
+    "WallabyJs.quokka-vscode",
+    "amatiasq.sort-imports",
+    "DSKWRK.vscode-generate-getter-setter",
+    "esbenp.prettier-vscode",
+    "HookyQR.beautify",
+    "expertly-simple.ng-evergreen",
+    "msjsdiag.debugger-for-edge"
+  ]
 }
