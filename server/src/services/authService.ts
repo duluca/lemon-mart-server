@@ -22,7 +22,7 @@ export function createJwt(user: IUser): Promise<string> {
     const payload = {
       email: user.email,
       role: user.role,
-      picture: user.picture
+      picture: user.picture,
     }
 
     jwt.sign(
