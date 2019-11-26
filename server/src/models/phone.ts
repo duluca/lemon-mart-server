@@ -16,11 +16,11 @@ export interface IPhone {
  *       properties:
  *         type:
  *           $ref: "#/components/schemas/PhoneType"
- *         number:
+ *         digits:
  *           type: string
- *       require:
+ *       required:
  *         - type
- *         - number
+ *         - digits
  */
 export class Phone implements IPhone, ISerializable {
   constructor(public type = PhoneType.None, public digits = '') {}

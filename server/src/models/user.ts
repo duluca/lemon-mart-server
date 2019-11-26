@@ -23,6 +23,7 @@ export interface IUser extends IDocument {
   role: Role
   userStatus: boolean
   dateOfBirth: Date
+  level: number
   address: {
     line1: string
     line2?: string
@@ -67,6 +68,8 @@ export interface IUser extends IDocument {
  *         dateOfBirth:
  *           type: string
  *           format: date
+ *         level:
+ *           type: number
  *         address:
  *           type: object
  *           properties:
@@ -94,18 +97,6 @@ export interface IUser extends IDocument {
  *         - name
  *         - role
  *         - userStatus
- *     ArrayOfUser:
- *       type: array
- *       items:
- *         $ref: "#/components/schemas/User"
- *     Users:
- *       type: object
- *       properties:
- *         total:
- *           type: number
- *           format: int32
- *         items:
- *           $ref: "#/components/schemas/ArrayOfUser"
  */
 export class User extends Document<IUser> implements IUser {
   static collectionName = 'users'
@@ -116,6 +107,7 @@ export class User extends Document<IUser> implements IUser {
   public role: Role
   public dateOfBirth: Date
   public userStatus: boolean
+  public level: number
   public address: {
     line1: string
     city: string
