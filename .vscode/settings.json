@@ -6,12 +6,12 @@
   "editor.autoIndent": true,
   "editor.cursorBlinking": "solid",
   "editor.formatOnType": false,
-  "editor.formatOnPaste": true,
+  "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false,
-    "source.fixAll.tslint": true
+    "source.fixAll.tslint": true,
   },
 
   "explorer.openEditors.visible": 0,
@@ -55,6 +55,8 @@
   },
   "peacock.color": "#2946f8",
 
-  "ng-evergreen.checkFrequency": "Daily",
+  "gitlens.menus": {
+    "editorGroup": false
+  },
   "ng-evergreen.upgradeChannel": "Latest"
 }
