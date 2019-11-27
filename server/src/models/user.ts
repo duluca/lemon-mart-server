@@ -1,11 +1,12 @@
 import * as bcrypt from 'bcryptjs'
 import { CollectionFactory, Document, IDocument } from 'document-ts'
 import { AggregationCursor, ObjectID } from 'mongodb'
-// import { Role } from '../../../web-app/src/app/auth/role.enum'
 import { v4 as uuid } from 'uuid'
 
 import { Role } from '../models/enums'
 import { IPhone, Phone } from './phone'
+
+// import { Role } from '../../../web-app/src/app/auth/role.enum'
 
 // import { IName, IUser } from '../../../web-app/src/app/user/user/user'
 // export interface IDbUser extends IUser, IDocument {}
