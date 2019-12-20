@@ -99,35 +99,6 @@ router.get('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /v2/users/{id}:
- *   get:
- *     description: Gets a `User` object by id
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: User's unique id
- *     responses:
- *        '200':
- *           description: OK
- *           content:
- *             application/json:
- *               schema:
- *                 $ref: '#/components/schemas/User'
- */
-router.get('/:userId', async (req: Request, res: Response) => {
-  const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
-  if (!user) {
-    res.status(404).send({ message: 'User not found.' })
-  } else {
-    res.send(user)
-  }
-})
-
-/**
- * @swagger
  * /v2/users:
  *   post:
  *     summary: Create a new `User`
@@ -152,6 +123,35 @@ router.post('/', async (req: Request, res: Response) => {
     res.send(success)
   } else {
     res.status(400).send({ message: 'Failed to create user.' })
+  }
+})
+
+/**
+ * @swagger
+ * /v2/users/{id}:
+ *   get:
+ *     description: Gets a `User` object by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User's unique id
+ *     responses:
+ *        '200':
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.get('/:userId', async (req: Request, res: Response) => {
+  const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
+  if (!user) {
+    res.status(404).send({ message: 'User not found.' })
+  } else {
+    res.send(user)
   }
 })
 

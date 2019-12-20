@@ -1,0 +1,275 @@
+openapi: 3.0.1
+info:
+  title: LemonMart
+  description: LemonMart API
+  version: "2.0.0"
+
+servers:
+  - url: http://localhost:3000
+    description: Local environment
+  - url: https://mystagingserver.com
+    description: Staging environment
+  - url: https://myprodserver.com
+    description: Production environment
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ServerMessage"
+  schemas:
+    ServerMessage:
+      type: object
+      properties:
+        message:
+          type: string
+    Role:
+      type: string
+      enum: [none, clerk, cashier, manager]
+    PhoneType:
+      type: string
+      enum: [none, mobile, home, work]
+    Phone:
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/PhoneType"
+        digits:
+          type: string
+      required:
+        - type
+        - digits
+    Name:
+      type: object
+      properties:
+        first:
+          type: string
+        middle:
+          type: string
+        last:
+          type: string
+      required:
+        - first
+        - last
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        email:
+          type: string
+        name:
+          $ref: "#/components/schemas/Name"
+        picture:
+          type: string
+        role:
+          $ref: "#/components/schemas/Role"
+        userStatus:
+          type: boolean
+        dateOfBirth:
+          type: string
+          format: date
+        address:
+          type: object
+          properties:
+            line1:
+              type: string
+            line2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+          required:
+            - line1
+            - city
+            - state
+            - zip
+        phones:
+          type: array
+          items:
+            $ref: "#/components/schemas/Phone"
+      required:
+        - email
+        - name
+        - role
+        - userStatus
+  parameters:
+    filterParam:
+      in: query
+      name: filter
+      required: false
+      schema:
+        type: string
+      description: Search text to filter the result set by
+    skipParam:
+      in: query
+      name: skip
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+      description: The number of items to skip before collecting the result set.
+    limitParam:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+      description: The numbers of items to return.
+    sortKeyParam:
+      in: query
+      name: sortKey
+      required: false
+      schema:
+        type: string
+      description: Name of a column to sort ascending. Prepend column name with a dash to sort descending.
+
+paths:
+  /v1/login:
+    post:
+      description: |
+        Generates a JWT, given correct credentials.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '200': # Response
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                description: JWT token that contains userId as subject, email and role as data payload.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /v1/auth/me:
+   get:
+      description: Gets the `User` object of the logged in user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /v2/users:
+    get:
+      description: |
+        Searches, sorts, paginates and returns a summary of `User` objects.
+      parameters:
+        - $ref: '#/components/parameters/filterParam'
+        - $ref: '#/components/parameters/skipParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortKeyParam'
+      responses:
+        "200": # Response
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        email:
+                          type: string
+                        fullName:
+                          type: string
+                        name:
+                          $ref: "#/components/schemas/Name"
+                        role:
+                          $ref: "#/components/schemas/Role"
+                      description: Summary of `User` object.
+    post:
+      summary: Create a new `User`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+         '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+  /v2/users/{id}:
+    get:
+      description: Gets a `User` object by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User's unique id
+      responses:
+         '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+    put:
+      summary: Updates an existing `User`
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User's unique id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+         '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'

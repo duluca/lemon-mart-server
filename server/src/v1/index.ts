@@ -11,12 +11,6 @@ const router = Router()
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
- *   schemas:
- *     ServerMessage:
- *       type: object
- *       properties:
- *         message:
- *           type: string
  *   responses:
  *     UnauthorizedError:
  *       description: Unauthorized
@@ -24,9 +18,15 @@ const router = Router()
  *         application/json:
  *           schema:
  *             $ref: "#/components/schemas/ServerMessage"
+ *   schemas:
+ *     ServerMessage:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
  */
 
-// Configure all routers here
+// Configure all v1 routers here
 router.use('/auth', authRouter)
 
 export default router
