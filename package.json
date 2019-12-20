@@ -9,9 +9,6 @@
     "webAppGitUrl": "https://github.com/duluca/lemon-mart.git"
   },
   "scripts": {
-    "standardize:ci": "npm run standardize:ci --prefix ./server && npm run standardize:ci --prefix ./web-app",
-    "install:ci": "npm ci && npm ci --prefix ./server && npm ci -- prefix ./web-app",
-    "audit:ci": "audit-ci --low --report-type full && audit-ci --low --report-type full --directory ./server && audit-ci --low --report-type full --directory ./web-app",
     "init:env": "init-dev-env generate-dot-env example.env -f && init-dev-env generate-dot-env server-example.env --source=. --target=server -f",
     "postinstall": "npm-recursive-install --skip-root",
     "build": "npm run build --prefix ./server && npm run build --prefix ./web-app -- --prod",
@@ -28,7 +25,7 @@
     "prewebapp:update": "git pull",
     "webapp:update": "git submodule update --init --recursive",
     "webapp:clean": "cross-conf-env rimraf web-app && git rm -r --cached web-app",
-    "webapp:init": "git submodule add $npm_package_config_webAppGitUrl web-app",
+    "webapp:init": "cross-conf-env git submodule add $npm_package_config_webAppGitUrl web-app",
     "postwebapp:init": "git submodule status web-app"
   },
   "repository": {
