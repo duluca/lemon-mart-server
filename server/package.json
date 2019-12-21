@@ -21,7 +21,7 @@
     "prestart": "npm run build",
     "start": "env-cmd node dist/src/index.js",
     "prebuild": "rimraf dist",
-    "build": "tsc -p ./tsconfig.server.json",
+    "build": "tsc -p ./tsconfig.src.json",
     "copy:assets": "copyfiles -E -u 1 \"./src/public/**/*\" \"./dist/\"",
     "postbuild": "npm run copy:assets",
     "build:test": "tsc -p tests/tsconfig.spec.json",

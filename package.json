@@ -22,11 +22,11 @@
     "publish:aws": "cross-conf-env ecs-cli compose --file docker-compose.aws.yml -p $npm_package_name -c $npm_package_config_awsEcsCluster -r $npm_package_config_awsRegion create",
     "start:docker:database": "docker run --env-file .env -d -p '27017:27017' -v '/tmp/lemon-mart-db:/data/db' excellalabs/mongo",
     "rimraf:node_modules": "rimraf node_modules && rimraf server/node_modules && rimraf web-app/node_modules",
-    "prewebapp:update": "git pull",
-    "webapp:update": "git submodule update --init --recursive",
     "webapp:clean": "cross-conf-env rimraf web-app && git rm -r --cached web-app",
     "webapp:init": "cross-conf-env git submodule add $npm_package_config_webAppGitUrl web-app",
-    "postwebapp:init": "git submodule status web-app"
+    "postwebapp:init": "git submodule status web-app",
+    "modules:init": "git submodule update --init --recursive",
+    "modules:update": "git submodule update --recursive --remote"
   },
   "repository": {
     "type": "git",
