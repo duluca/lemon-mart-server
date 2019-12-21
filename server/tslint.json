@@ -19,7 +19,7 @@
     "interface-name": false,
     "max-classes-per-file": false,
     "max-line-length": [
-      true,
+      false,
       90
     ],
     "member-access": false,
@@ -67,6 +67,7 @@
     "semicolon": [
       true,
       "never"
-    ]
+    ],
+    "no-unused-declaration": true
   }
 }

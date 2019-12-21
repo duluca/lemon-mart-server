@@ -1,0 +1,5 @@
+*.js
+*.js.map
+declarations
+test_results
+.env

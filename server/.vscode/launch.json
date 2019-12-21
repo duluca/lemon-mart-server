@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Jasmine Current Spec File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
+      "args": [
+        "tests/${fileBasenameNoExtension}.js"
+      ],
+      "env": {
+        "NODE_PATH": "."
+      },
+      "preLaunchTask": "npm: build:test"
+    }
+  ]
+}

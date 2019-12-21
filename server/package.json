@@ -21,7 +21,7 @@
     "prestart": "npm run build",
     "start": "env-cmd node dist/src/index.js",
     "prebuild": "rimraf dist",
-    "build": "tsc -p ./tsconfig.src.json",
+    "build": "tsc -p tsconfig.src.json",
     "copy:assets": "copyfiles -E -u 1 \"./src/public/**/*\" \"./dist/\"",
     "postbuild": "npm run copy:assets",
     "build:test": "tsc -p tests/tsconfig.spec.json",
@@ -47,7 +47,10 @@
     "docker:open:mac": "echo Trying to launch on MacOS && sleep 2 && URL=http://localhost:$npm_package_config_imagePort && open $URL",
     "docker:debugmessage": "echo Docker Debug Completed Successfully! Hit Ctrl+C to terminate log tailing.",
     "predocker:debug": "run-s -c docker:build docker:run",
-    "docker:debug": "run-s -cs docker:open:win docker:open:mac docker:debugmessage docker:taillogs"
+    "docker:debug": "run-s -cs docker:open:win docker:open:mac docker:debugmessage docker:taillogs",
+    "prepublishOnly": "npm run test",
+    "prepare": "npm run build",
+    "init:env": "init-dev-env generate-dot-env example.env -f"
   },
   "repository": {
     "type": "git",
@@ -107,6 +110,7 @@
     "import-sort-cli": "^6.0.0",
     "import-sort-parser-typescript": "^6.0.0",
     "import-sort-style-module": "^6.0.0",
+    "init-dev-env": "^1.0.0",
     "jasmine": "^3.5.0",
     "jasmine-node": "^3.0.0",
     "jasmine-xml-reporter": "^1.2.1",
