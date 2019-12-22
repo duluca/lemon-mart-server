@@ -25,4 +25,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - "/tmp/lemon-mart-db:/data/db"
+      - "dbdata:/data/db"
+
+volumes:
+  dbdata:
