@@ -1,11 +1,11 @@
-version: '3'
+version: "3.7"
 services:
   web-app:
     build:
       context: ./web-app
       dockerfile: nginx.Dockerfile
     ports:
-      - '8080:80'
+      - "8080:80"
     links:
       - server
     depends_on:
@@ -15,16 +15,17 @@ services:
     build: server
     env_file: .env
     ports:
-      - '3000:3000'
+      - "3000:3000"
     links:
       - database
     depends_on:
       - database
 
   database:
-    image: excellalabs/mongo:4.2.0
+    image: duluca/minimal-mongo:4.2.2
+    restart: always
     env_file: .env
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - '/tmp/lemon-mart-db:/data/db'
+      - "/tmp/lemon-mart-db:/data/db"

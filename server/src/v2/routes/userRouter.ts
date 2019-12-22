@@ -3,6 +3,7 @@ import { Request, Response, Router } from 'express'
 import { ObjectID } from 'mongodb'
 
 import { IUser, User, UserCollection } from '../../models/user'
+import { authenticate } from '../../services/authService'
 import { createNewUser } from '../../services/userService'
 
 const router = Router()
@@ -84,7 +85,7 @@ const router = Router()
  *                         $ref: "#/components/schemas/Role"
  *                     description: Summary of `User` object.
  */
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', authenticate, async (req: Request, res: Response) => {
   const query: Partial<IQueryParameters> = {
     filter: req.query.filter,
     limit: req.query.limit,
@@ -116,7 +117,7 @@ router.get('/', async (req: Request, res: Response) => {
  *               schema:
  *                 $ref: '#/components/schemas/User'
  */
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', authenticate, async (req: Request, res: Response) => {
   const userData = req.body as IUser
   const success = await createNewUser(userData)
   if (success instanceof User) {
@@ -146,7 +147,7 @@ router.post('/', async (req: Request, res: Response) => {
  *               schema:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/:userId', async (req: Request, res: Response) => {
+router.get('/:userId', authenticate, async (req: Request, res: Response) => {
   const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
   if (!user) {
     res.status(404).send({ message: 'User not found.' })
@@ -181,7 +182,7 @@ router.get('/:userId', async (req: Request, res: Response) => {
  *               schema:
  *                 $ref: '#/components/schemas/User'
  */
-router.put('/:userId', async (req: Request, res: Response) => {
+router.put('/:userId', authenticate, async (req: Request, res: Response) => {
   const userData = req.body as User
   delete userData._id
   await UserCollection.findOneAndUpdate(

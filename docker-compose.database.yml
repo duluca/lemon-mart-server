@@ -1,10 +1,10 @@
-version: '3'
+version: "3"
 services:
   database:
-    image: excellalabs/mongo:4.2.0
+    image: duluca/minimal-mongo:4.2.2
     restart: always
     env_file: .env
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - '/tmp/lemon-mart-db:/data/db'
+      - "/tmp/lemon-mart-db:/data/db"
