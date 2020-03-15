@@ -1,4 +1,4 @@
-# Lemon Mart Server
+# Lemon Mart Server <img src="https://user-images.githubusercontent.com/822159/76695774-8f44e180-6659-11ea-9dea-23cd61fbd2f4.png" alt="Minimal MEAN" width="36"/>
 
 > Easy to learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
