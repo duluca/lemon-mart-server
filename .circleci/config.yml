@@ -54,7 +54,7 @@ jobs:
     steps:
       - checkout:
           path: ~/repo
-      - run: npm run webapp:update --prefix ../
+      - run: npm run modules:update --prefix ../
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
