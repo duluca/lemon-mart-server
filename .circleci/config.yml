@@ -1,6 +1,9 @@
 version: 2.1
 orbs:
   coveralls: coveralls/coveralls@1.0.4
+  # Cypress Orb, see
+  # https://github.com/cypress-io/circleci-orb
+  cypress: cypress-io/cypress@1
 jobs:
   build_server:
     docker:
@@ -18,7 +21,7 @@ jobs:
             - v1-server-dependencies-
 
       # check npm dependencies for security risks - run 'npm audit' to fix
-      - run: npx audit-ci --low --report-type full
+      - run: npx audit-ci --low --report-type full -w decompress
 
       # install dependecies
       - run: npm ci
@@ -50,11 +53,9 @@ jobs:
   build_webapp:
     docker:
       - image: circleci/node:lts-browsers
-    working_directory: ~/repo/web-app
+    working_directory: ~/repo
     steps:
-      - checkout:
-          path: ~/repo
-      - run: npm run modules:update --prefix ../
+      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -66,9 +67,14 @@ jobs:
       # force update the webdriver, so it runs with latest version of Chrome
       - run: cd ./node_modules/protractor && npm i webdriver-manager@latest
 
+      # because we use "npm ci" to install NPM dependencies
+      # we cache "~/.npm" folder
+      # because Cypress is a dev dependency
+      # we should also cache "~/.cache/Cypress" folder
       - save_cache:
           paths:
-            - node_modules
+            - ~/.npm
+            - ~/.cache/Cypress
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm run style
@@ -76,16 +82,19 @@ jobs:
       - run: npm run build:prod
       - run: npm test -- --watch=false --code-coverage
       - run: npm run e2e
+      - run:
+          name: Run Cypress tests
+          command: "npx cypress run --record"
 
-      # - store_test_results:
-      #     path: ./test_results
-      # - store_artifacts:
-      #     path: ./coverage
+      - store_test_results:
+          path: ./test_results
+      - store_artifacts:
+          path: ./coverage
 
       # upload coverage report to coveralls for readme badge support
       # requires config.yml version 2.1 and orbs: coveralls: coveralls/coveralls@1.0.4
       # requires coveralls account and token named COVERALLS_REPO_TOKEN specific to repo to be stored in CircleCI
-      # - coveralls/upload
+      - coveralls/upload
 
       - run:
           name: Tar & Gzip compiled app
