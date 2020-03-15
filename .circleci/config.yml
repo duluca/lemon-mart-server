@@ -28,7 +28,7 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
+            - ~/.npm
           key: v1-server-dependencies-{{ checksum "package.json" }}
 
       # ensure code formatting standards are adhered to - run 'npm run style:fix' to fix
