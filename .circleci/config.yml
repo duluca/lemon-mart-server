@@ -16,7 +16,7 @@ jobs:
           path: ~/repo
       - restore_cache:
           keys:
-            - v1-server-dependencies-{{ checksum "package.json" }}
+            - v1-server-dependencies-{{ checksum "package-lock.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-server-dependencies-
 
@@ -29,7 +29,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.npm
-          key: v1-server-dependencies-{{ checksum "package.json" }}
+          key: v1-server-dependencies-{{ checksum "package-lock.json" }}
 
       # ensure code formatting standards are adhered to - run 'npm run style:fix' to fix
       - run: npm run style
@@ -119,7 +119,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - run: npx now --token $NOW_TOKEN --platform-version 2 --prod --name lemon-mart /tmp/workspace/dist/lemon-mart
+      - run: npx now --token $NOW_TOKEN --platform-version 2 --prod /tmp/workspace/dist/lemon-mart --confirm
 
 workflows:
   version: 2
