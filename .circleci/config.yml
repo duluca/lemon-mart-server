@@ -55,6 +55,7 @@ jobs:
     steps:
       - checkout:
           path: ~/repo
+      - run: cd ..; npm run modules:init
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}
