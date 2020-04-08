@@ -49,7 +49,7 @@
     "dev-norms": "^1.7.0",
     "init-dev-env": "^1.0.0",
     "recursive-install": "^1.4.0",
-    "rimraf": "^3.0.0",
-    "typescript": "^3.7.2"
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   }
 }

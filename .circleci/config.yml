@@ -53,12 +53,12 @@ jobs:
   build_webapp:
     docker:
       - image: circleci/node:lts-browsers
-    working_directory: ~/repo
+    working_directory: ~/repo/web-app
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "package-lock.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
@@ -75,7 +75,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache/Cypress
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
 
       - run: npm run style
       - run: npm run lint
