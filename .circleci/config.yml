@@ -54,8 +54,7 @@ jobs:
     working_directory: ~/repo/web-app
     steps:
       - checkout
-      - run: ls
-      - run: cd ..; npm run modules:init
+          path: ~/repo
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}
