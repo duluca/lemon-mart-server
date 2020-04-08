@@ -8,9 +8,7 @@ jobs:
   build_server:
     docker:
       - image: circleci/node:lts
-
     working_directory: ~/repo/server
-
     steps:
       - checkout:
           path: ~/repo
@@ -56,6 +54,7 @@ jobs:
     working_directory: ~/repo/web-app
     steps:
       - checkout
+      - run: cd ..; npm run modules:init
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}
@@ -112,29 +111,9 @@ jobs:
           root: /tmp/workspace
           paths:
             - dist/lemon-mart
-  deploy:
-    docker:
-      - image: circleci/node:lts
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run: npx now --token $NOW_TOKEN --platform-version 2 --prod /tmp/workspace/dist/lemon-mart --confirm
-
 workflows:
   version: 2
   build-test-and-approval-deploy:
     jobs:
       - build_server
       - build_webapp
-      - hold:
-          type: approval
-          requires:
-            - build_server
-            - build_webapp
-          filters:
-            branches:
-              only: master
-      - deploy:
-          requires:
-            - hold
