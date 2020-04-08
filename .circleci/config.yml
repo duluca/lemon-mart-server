@@ -54,6 +54,7 @@ jobs:
     working_directory: ~/repo/web-app
     steps:
       - checkout
+      - run: ls
       - run: cd ..; npm run modules:init
       - restore_cache:
           keys:
