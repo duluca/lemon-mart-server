@@ -125,16 +125,24 @@ jobs:
       - run:
           name: Restore .env files
           command: |
-            echo $PROJECT_DOT_ENV > .env
-            echo $SERVER_DOT_ENV > server/.env
+            echo -e $PROJECT_DOT_ENV > .env
+            echo -e $SERVER_DOT_ENV > server/.env
       - run:
-          name: Compose up and verify
+          name: Compose up
           command: |
             set -x
             docker-compose up -d
+      - run:
+          name: Verify web app
+          command: |
+            set -x
             docker run --network container:web \
               appropriate/curl --retry 10 --retry-delay 1 \--retry-connrefused \
               http://localhost:80
+      - run:
+          name: Verify db login with api
+          command: |
+            set -x
             docker run --network container:api \
               appropriate/curl --retry 10 --retry-delay 1 \--retry-connrefused \
               -X POST "http://localhost:3000/v1/auth/login" \
