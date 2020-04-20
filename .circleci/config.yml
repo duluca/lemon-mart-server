@@ -80,12 +80,12 @@ jobs:
 
       - run: npm run style
       - run: npm run lint
-      - run: npm run build:prod
+      - run: npm run build -- --configuration=lemon-mart-server
       - run: npm test -- --watch=false --code-coverage
       - run: npm run e2e
       - run:
           name: Run Cypress tests
-          command: "npx cypress run --record"
+          command: 'npx cypress run --record'
 
       - store_test_results:
           path: ./test_results
