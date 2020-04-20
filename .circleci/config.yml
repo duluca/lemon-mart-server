@@ -136,6 +136,11 @@ jobs:
           name: Copy built web-app to web-app/dist folder
           command: cp -avR /tmp/workspace/dist/ ./web-app
       - run:
+          name: Restore .env files
+          command: |
+            echo $PROJECT_DOT_ENV > .env
+            echo $SERVER_DOT_ENV > server/.env
+      - run:
           name: Start containers and verify there're working
           command: |
             set -x
