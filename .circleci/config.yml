@@ -136,7 +136,6 @@ jobs:
           name: Verify with login
           command: |
             set -x
-            curl "http://localhost:8080" | echo
             curl -X POST "http://localhost:3000/v1/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"email\":\"duluca@gmail.com\",\"password\":\"l0l1pop!!\"}" | echo
 workflows:
   version: 2
