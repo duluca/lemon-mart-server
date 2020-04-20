@@ -129,6 +129,7 @@ jobs:
           at: /tmp/workspace
       - checkout:
           path: ~/repo
+      - run: npm run modules:init
       - run:
           name: Copy built server to server/dist folder
           command: cp -avR /tmp/workspace/server/ ./server/dist
