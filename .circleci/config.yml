@@ -132,7 +132,22 @@ jobs:
           command: |
             set -x
             docker-compose up -d
-            docker run --network container:web appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8080
+      - run:
+          name: Verify web app
+          command: |
+            set -x
+            docker run --network container:web \
+              appropriate/curl --retry 10 --retry-delay 1 \--retry-connrefused \
+              http://localhost:80
+      - run:
+        name: Verify db login with api
+        command: |
+          set -x
+          docker run --network container:api \
+          appropriate/curl --retry 10 --retry-delay 1 \--retry-connrefused \
+          -X POST "http://localhost:3000/v1/auth/login" \
+          -H "accept: application/json" -H "Content-Type: application/json" \
+          -d "{'email':'duluca@gmail.com','password':'l0l1pop!!'}"
 
 workflows:
   version: 2
