@@ -50,15 +50,15 @@ jobs:
       - coveralls/upload
 
       - run:
-        name: Move compiled app to workspace
-        command: |
-          set -exu
-          mkdir -p /tmp/workspace/server
-          mv dist /tmp/workspace/server
-    - persist_to_workspace:
-        root: /tmp/workspace
-        paths:
-          - server
+          name: Move compiled app to workspace
+          command: |
+            set -exu
+            mkdir -p /tmp/workspace/server
+            mv dist /tmp/workspace/server
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - server
   build_webapp:
     docker:
       - image: circleci/node:lts-browsers
@@ -119,7 +119,7 @@ jobs:
           root: /tmp/workspace
           paths:
             - dist/lemon-mart
-  test_integration:
+  test_compose:
     docker:
       - image: circleci/node:lts-browsers
     working_directory: ~/repo
@@ -128,19 +128,23 @@ jobs:
       - checkout:
           path: ~/repo
       - run:
-        name: Copy built server to server/dist folder
-        command: cp -avR /tmp/workspace/server/ ./server/dist
+          name: Copy built server to server/dist folder
+          command: cp -avR /tmp/workspace/server/ ./server/dist
       - run:
-        name: Copy built web-app to web-app/dist folder
-        command: cp -avR /tmp/workspace/dist/ ./web-app
+          name: Copy built web-app to web-app/dist folder
+          command: cp -avR /tmp/workspace/dist/ ./web-app
       - run:
-        name: Start containers and verify there're working
-        command: |
-          set -x
-          docker-compose up -d
+          name: Start containers and verify there're working
+          command: |
+            set -x
+            docker-compose up -d
 workflows:
   version: 2
-  build-test-and-approval-deploy:
+  build-and-test-compose:
     jobs:
       - build_server
       - build_webapp
+      - test_compose:
+          requires:
+            - build_server
+            - build_webapp
