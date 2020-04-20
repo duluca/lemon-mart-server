@@ -128,15 +128,10 @@ jobs:
             echo $PROJECT_DOT_ENV > .env
             echo $SERVER_DOT_ENV > server/.env
       - run:
-          name: Start containers
+          name: Compose Up
           command: |
             set -x
             docker-compose up -d
-      - run:
-          name: Verify with login
-          command: |
-            set -x
-            curl -X POST "http://localhost:3000/v1/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"email\":\"duluca@gmail.com\",\"password\":\"l0l1pop!!\"}" | echo
 workflows:
   version: 2
   build-and-test-compose:
