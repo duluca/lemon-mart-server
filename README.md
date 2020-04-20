@@ -76,7 +76,7 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
 - web-app: This folder contains the client side Angular app, configured using [Angular CLI](https://github.com/angular/angular-cli) along with its own individual Node.js server
 - server: This folder contains the server side Node.js app that can be used to serve REST APIs and it is capable of connecting to MongoDB
 - [document-ts](https://github.com/duluca/documentts): The library to connect and query Mongo in an async, flexible and convenient manner
-- [excellalabs/mongo](https://hub.docker.com/r/excellalabs/mongo/): A fully-featured Mongo image (with Auth and SSL) inherited from the official image.
+- [duluca/minimal-mongo](https://hub.docker.com/r/duluca/minimal-mongo): A fully-featured Mongo image (with Auth and SSL) inherited from the official image.
 
 ## Continuous Integration and Hosting
 
