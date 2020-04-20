@@ -125,6 +125,8 @@ jobs:
     working_directory: ~/repo
     steps:
       - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
       - checkout:
           path: ~/repo
       - run:
