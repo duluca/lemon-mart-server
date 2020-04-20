@@ -1,21 +1,23 @@
-version: "3.7"
+version: '3.7'
 services:
   web-app:
+    container_name: web
     build:
       context: ./web-app
       dockerfile: nginx.Dockerfile
     ports:
-      - "8080:80"
+      - '8080:80'
     links:
       - server
     depends_on:
       - server
 
   server:
+    container_name: api
     build: server
     env_file: .env
     ports:
-      - "3000:3000"
+      - '3000:3000'
     links:
       - database
     depends_on:
@@ -26,9 +28,9 @@ services:
     restart: always
     env_file: .env
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
-      - "dbdata:/data/db"
+      - 'dbdata:/data/db'
 
 volumes:
   dbdata:
