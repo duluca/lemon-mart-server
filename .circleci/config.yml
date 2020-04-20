@@ -132,6 +132,8 @@ jobs:
           command: |
             set -x
             docker-compose up -d
+            docker run --network container:web appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8080
+
 workflows:
   version: 2
   build-and-test-compose:
