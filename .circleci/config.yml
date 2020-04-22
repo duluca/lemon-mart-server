@@ -118,7 +118,7 @@ jobs:
       - run: npm run modules:init
       - run:
           name: Copy built server to server/dist folder
-          command: cp -avR /tmp/workspace/server/ ./server/dist
+          command: cp -avR /tmp/workspace/server/ ./server
       - run:
           name: Copy built web-app to web-app/dist folder
           command: cp -avR /tmp/workspace/dist/ ./web-app
