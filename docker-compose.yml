@@ -15,7 +15,7 @@ services:
   server:
     container_name: api
     build: server
-    env_file: .env
+    env_file: ./server/.env
     ports:
       - '3000:3000'
     links:
