@@ -11,16 +11,19 @@ export async function createNewUser(userData: IUser): Promise<User | boolean> {
   }
 }
 
-export async function initializeDefaultUser() {
-  const existingUser = await UserCollection.findOne({ email: 'duluca@gmail.com' })
+export async function initializeDemoUser(email: string, password: string, id: string) {
+  // This function loads a demo user.
+  // In a production application you would seed admin users in a similar way (except for the user id).
+
+  const existingUser = await UserCollection.findOne({ email })
 
   if (existingUser) {
     console.log('Found existing user... deleting')
     await existingUser.delete()
   }
-  // 5da01751da27cc462d265913
+
   const defaultUser = new User({
-    email: 'duluca@gmail.com',
+    email,
     name: { first: 'Doguhan', last: 'Uluca' },
     picture: 'https://secure.gravatar.com/avatar/7cbaa9afb5ca78d97f3c689f8ce6c985',
     role: Role.Manager,
@@ -41,5 +44,5 @@ export async function initializeDefaultUser() {
     ],
   })
 
-  await defaultUser.create('5da01751da27cc462d265913', 'l0l1pop!!', true)
+  await defaultUser.create(id, password, true)
 }

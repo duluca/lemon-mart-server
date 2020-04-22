@@ -5,7 +5,7 @@ import * as document from 'document-ts'
 import app from './app'
 import * as config from './config'
 import { UserCollection } from './models/user'
-import { initializeDefaultUser } from './services/userService'
+import { initializeDemoUser } from './services/userService'
 
 export let Instance: http.Server
 
@@ -34,7 +34,12 @@ async function start() {
     console.log(`Server listening on port ${config.Port}...`)
     console.log('Initializing default user...')
     await createIndexes()
-    await initializeDefaultUser()
+    // Seed the database with a demo user. Replace with your own function to seed admin users
+    await initializeDemoUser(
+      process.env.DEMO_EMAIL || '',
+      process.env.DEMO_PASSWORD || '',
+      process.env.DEMO_USERID || ''
+    )
     console.log('Done.')
   })
 }
