@@ -137,13 +137,16 @@ jobs:
           command: |
             set -x
             docker run --network container:web \
-              appropriate/curl --retry 10 --retry-delay 1 \--retry-connrefused \
+              appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused \
               http://localhost:80
       - run:
           name: Verify db login with api
           command: |
             set -x
-            docker run --network container:api appropriate/curl -H "accept: application/json" -H "Content-Type: application/json" -d "$LOGIN_JSON" http://localhost:3000/v1/auth/login
+            docker run --network container:api \
+              appropriate/curl --retry 10 --retry-delay 10 --retry-connrefused \
+              -H "accept: application/json" -H "Content-Type: application/json" \
+              -d "$LOGIN_JSON" http://localhost:3000/v1/auth/login
 
 workflows:
   version: 2
