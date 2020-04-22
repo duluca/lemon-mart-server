@@ -137,7 +137,7 @@ jobs:
           command: |
             set -x
             docker run --network container:web jwilder/dockerize -wait http://web-app:80
-            docker run --network container:web http://localhost:80
+            docker run --network container:web appropriate/curl http://localhost:80
       - run:
           name: Verify db login with api
           command: |
