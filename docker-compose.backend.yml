@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   server:
+    container_name: lemon-mart-server
     build: server
     env_file: ./server/.env
     environment:
@@ -13,6 +14,7 @@ services:
       - database
 
   database:
+    container_name: lemondb
     image: duluca/minimal-mongo:4.2.2
     env_file: .env
     ports:

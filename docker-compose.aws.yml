@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   web-app:
+    container_name: web
     image: duluca/lemon-mart-web-app
     ports:
       - '80:80'
@@ -10,6 +11,7 @@ services:
       - server
 
   server:
+    container_name: lemon-mart-server
     image: duluca/lemon-mart-server
     env_file: ./server/.env
     environment:
@@ -22,6 +24,7 @@ services:
       - database
 
   database:
+    container_name: lemondb
     image: duluca/minimal-mongo:4.2.2
     env_file: .env
     ports:
