@@ -125,6 +125,7 @@ jobs:
       - run:
           name: Restore .env files
           command: |
+            set +H
             echo -e $PROJECT_DOT_ENV > .env
             echo -e $SERVER_DOT_ENV > server/.env
       - run:
@@ -136,14 +137,14 @@ jobs:
           name: Verify web app
           command: |
             set -x
-            docker run --network container:web jwilder/dockerize -wait http://web-app:80
+            docker run --network container:web jwilder/dockerize -wait http://localhost:80
             docker run --network container:web appropriate/curl http://localhost:80
       - run:
           name: Verify db login with api
           command: |
             set -x
-            docker run --network container:api jwilder/dockerize -wait http://server:3000
-            docker run --network container:api appropriate/curl \
+            docker run --network container:lemon-mart-server jwilder/dockerize -wait http://localhost:3000
+            docker run --network container:lemon-mart-server appropriate/curl \
               -H "accept: application/json" -H "Content-Type: application/json" \
               -d "$LOGIN_JSON" http://localhost:3000/v1/auth/login
 
