@@ -10,7 +10,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 describe('Integration', () => {
   beforeEach(async () => {
     mongoServerInstance = new MongoMemoryServer({ instance: { dbName: 'testDb' } })
-    const uri = await mongoServerInstance.getConnectionString()
+    const uri = await mongoServerInstance.getUri()
     await connect(uri)
   })
 
