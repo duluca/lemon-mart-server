@@ -15,7 +15,7 @@ async function start() {
   console.log(`port: ${config.Port}`)
   console.log(`mongoUri: ${config.MongoUri}`)
 
-  if (!config.JwtSecret || config.JwtSecret === 'xxxxxx') {
+  if (!config.JwtSecret() || config.JwtSecret() === 'xxxxxx') {
     throw new Error(
       'JWT_SECRET env var not set or set to default value. Pick a secure password.'
     )

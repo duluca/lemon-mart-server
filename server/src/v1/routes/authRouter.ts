@@ -74,7 +74,7 @@ router.post('/login', async (req: Request, res: Response) => {
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 // tslint:disable-next-line: variable-name
-router.get('/me', authenticate, async (_req: Request, res: Response) => {
+router.get('/me', authenticate(), async (_req: Request, res: Response) => {
   if (res.locals.currentUser) {
     return res.send(res.locals.currentUser)
   }
