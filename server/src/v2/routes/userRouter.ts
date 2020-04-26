@@ -158,7 +158,13 @@ router.post(
  */
 router.get(
   '/:userId',
-  authenticate({ requiredRole: Role.Manager }),
+  authenticate({
+    requiredRole: Role.Manager,
+    permitIfSelf: {
+      idGetter: (req: Request) => req.body._id,
+      requiredRoleCanOverride: true,
+    },
+  }),
   async (req: Request, res: Response) => {
     const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
     if (!user) {
