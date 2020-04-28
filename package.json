@@ -5,8 +5,9 @@
   "main": "index.js",
   "config": {
     "awsRegion": "us-east-1",
-    "awsEcsCluster": "excella-prod-ecs-cluster",
-    "webAppGitUrl": "https://github.com/duluca/lemon-mart.git"
+    "awsEcsCluster": "lemon-mart-cluster",
+    "webAppGitUrl": "https://github.com/duluca/lemon-mart.git",
+    "awsService": "lemon-mart-service"
   },
   "scripts": {
     "init:env": "init-dev-env generate-dot-env example.env -f && init-dev-env generate-dot-env server-example.env --source=. --target=server -f",
@@ -27,7 +28,13 @@
     "webapp:init": "cross-conf-env git submodule add $npm_package_config_webAppGitUrl web-app",
     "postwebapp:init": "git submodule status web-app",
     "modules:init": "git submodule update --init --recursive",
-    "modules:update": "git submodule update --recursive --remote"
+    "modules:update": "git submodule update --recursive --remote",
+    "aws:login:win": "cross-conf-env aws ecr get-login --no-include-email --region $npm_package_config_awsRegion > dockerLogin.cmd && call dockerLogin.cmd && del dockerLogin.cmd",
+    "aws:login:mac": "eval $(aws ecr get-login --no-include-email --region $npm_package_config_awsRegion)",
+    "aws:login": "run-p -cs aws:login:win aws:login:mac",
+    "aws:deploy": "cross-conf-env docker run --env-file ./.env silintl/ecs-deploy -c $npm_package_config_awsEcsCluster -n $npm_package_config_awsService -i $npm_package_config_imageRepo:latest -r $npm_package_config_awsRegion --timeout 1000",
+    "aws:release": "run-s -cs aws:login docker:publish aws:deploy",
+    "aws:publish:compose": "cross-conf-env ecs-cli compose --file docker-compose.aws.yml -p $npm_package_name -c $npm_package_config_awsEcsCluster -r $npm_package_config_awsRegion create"
   },
   "repository": {
     "type": "git",
@@ -49,6 +56,7 @@
     "cross-conf-env": "^1.1.2",
     "dev-norms": "^1.7.0",
     "init-dev-env": "^1.0.0",
+    "npm-run-all": "^4.1.5",
     "recursive-install": "^1.4.0",
     "rimraf": "^3.0.2",
     "typescript": "^3.8.3"
