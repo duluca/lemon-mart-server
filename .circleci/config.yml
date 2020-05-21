@@ -11,9 +11,7 @@ jobs:
           path: ~/repo
       - restore_cache:
           keys:
-            - v1-server-dependencies-{{ checksum "package-lock.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-server-dependencies-
+            - node_modules-{{ checksum "package-lock.json" }}
 
       # check npm dependencies for security risks - run 'npm audit' to fix
       - run: npx audit-ci --high --report-type full
@@ -24,7 +22,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.npm
-          key: v1-server-dependencies-{{ checksum "package-lock.json" }}
+          key: node_modules-{{ checksum "package-lock.json" }}
 
       # ensure code formatting standards are adhered to - run 'npm run style:fix' to fix
       - run: npm run style
