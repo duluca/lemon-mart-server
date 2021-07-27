@@ -3,7 +3,7 @@
 
   "editor.tabSize": 2,
   "editor.rulers": [90],
-  "editor.autoIndent": true,
+  "editor.autoIndent": "full",
   "editor.cursorBlinking": "solid",
   "editor.formatOnType": false,
   "editor.formatOnPaste": false,
@@ -11,7 +11,7 @@
   "editor.minimap.enabled": false,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false,
-    "source.fixAll.tslint": true,
+    "source.fixAll.tslint": true
   },
 
   "explorer.openEditors.visible": 0,
@@ -29,8 +29,6 @@
 
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-
-  "npm.enableScriptExplorer": true,
 
   "typescript.tsdk": "node_modules/typescript/lib",
 
@@ -58,7 +56,6 @@
     "activityBarBadge.foreground": "#15202b",
     "statusBar.background": "#2946f8",
     "statusBarItem.hoverBackground": "#5a71fa",
-    "statusBar.foreground": "#e7e7e7",
-    "statusBar.border": "#2946f8"
+    "statusBar.foreground": "#e7e7e7"
   }
 }
