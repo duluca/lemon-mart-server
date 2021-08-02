@@ -2,10 +2,10 @@
 
 > Easy to learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
-![Angular Version](https://img.shields.io/badge/angular-v10-326839)
-[![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
+![Angular Version](https://img.shields.io/badge/angular-v12-326839)
+[![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/main.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/main)
 [![DeepScan grade](https://deepscan.io/api/teams/1906/projects/7949/branches/88772/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1906&pid=7949&bid=88772)
-[![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=master)](https://coveralls.io/github/duluca/lemon-mart-server?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=main)](https://coveralls.io/github/duluca/lemon-mart-server?branch=main)
 
 **Watch the video:** [Do More with Less: Full Stack TypeScript](https://youtu.be/gi1neXh0uKE?list=PLtevgo7IoQizTQdXtRKEXGguTQbL0F01_)
 
@@ -81,7 +81,7 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
 
 ## Continuous Integration and Hosting
 
-- CI is implemented on CircleCI [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
+- CI is implemented on CircleCI [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/main.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/main)
 - Hosted on AWS ECS
   - You'll need to individually publish your Docker containers to ECS
   - Then update `docker-compose.aws.yml` to pull from the ECS repository
