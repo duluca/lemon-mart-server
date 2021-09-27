@@ -74,7 +74,7 @@
     "document-ts": "^4.6.3",
     "express": "^5.0.0-alpha.8",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.5.5",
+    "mongodb": "^3.7.0",
     "morgan": "^1.9.1",
     "swagger-jsdoc": "^3.5.0",
     "swagger-ui-express": "^4.1.3",
