@@ -73,7 +73,7 @@
     "cors": "^2.8.5",
     "document-ts": "^4.6.3",
     "express": "^5.0.0-alpha.8",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^3.5.5",
     "morgan": "^1.9.1",
     "swagger-jsdoc": "^3.5.0",
