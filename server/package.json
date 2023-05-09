@@ -4,8 +4,8 @@
   "description": "Easy to learn and use full-stack TypeScript with Mongo, Express, Angular and Node",
   "main": "index.js",
   "engines": {
-    "node": "10.15.0",
-    "npm": "6.9.0"
+    "node": "18.16.0",
+    "npm": "9.5.1"
   },
   "config": {
     "imageRepo": "duluca/lemon-mart-server",
@@ -15,9 +15,9 @@
   },
   "scripts": {
     "style": "prettier --check \"{src,tests}/**/*.ts\"",
-    "style:fix": "prettier --write \"{src,tests}/**/*.ts\"",
+    "style:fix": "npm run style -- --write",
     "lint": "eslint -c .eslintrc.js --ext .ts .",
-    "lint:fix": "eslint -c .eslintrc.js --fix --ext .ts .",
+    "lint:fix": "npm run lint -- --fix",
     "prestart": "npm run build",
     "start": "env-cmd node dist/src/index.js",
     "prebuild": "rimraf dist",
