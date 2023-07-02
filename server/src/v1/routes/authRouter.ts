@@ -1,17 +1,16 @@
 import { Request, Response, Router } from 'express'
-
 import { UserCollection } from '../../models/user'
 import {
-  AuthenticationRequiredMessage,
-  IncorrectEmailPasswordMessage,
   authenticate,
+  AuthenticationRequiredMessage,
   createJwt,
+  IncorrectEmailPasswordMessage,
 } from '../../services/authService'
 
 const router = Router()
 
 /**
- * @swagger
+ * @openapi
  * /v1/auth/login:
  *   post:
  *     description: |
@@ -46,7 +45,7 @@ const router = Router()
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 router.post('/login', async (req: Request, res: Response) => {
-  const userEmail = req.body.email?.toLowerCase()
+  const userEmail = req.body?.email?.toLowerCase()
   const user = await UserCollection.findOne({ email: userEmail })
 
   if (user && (await user.comparePassword(req.body.password))) {
@@ -57,20 +56,18 @@ router.post('/login', async (req: Request, res: Response) => {
 })
 
 /**
- * @swagger
+ * @openapi
  * /v1/auth/me:
  *   get:
  *     description: Gets the `User` object of the logged in user
- *     security:
- *       - bearerAuth: []
  *     responses:
- *        '200':
- *           description: OK
- *           content:
- *             application/json:
- *               schema:
- *                 $ref: '#/components/schemas/User'
- *        '401':
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       '401':
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 // tslint:disable-next-line: variable-name

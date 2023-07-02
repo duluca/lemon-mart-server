@@ -1,28 +1,27 @@
 import { close, connect } from 'document-ts'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-
 import { Role } from '../src/models/enums'
 import { IUser, User, UserCollection } from '../src/models/user'
 
-let mongoServerInstance: MongoMemoryServer
+let mongod: MongoMemoryServer
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
 describe('Integration', () => {
   beforeEach(async () => {
-    mongoServerInstance = new MongoMemoryServer({ instance: { dbName: 'testDb' } })
-    const uri = await mongoServerInstance.getUri()
-    await connect(uri)
+    const dbName = 'testDb'
+    mongod = await MongoMemoryServer.create({ instance: { dbName: dbName } })
+    await connect(`${mongod.getUri()}${dbName}}`)
   })
 
   afterEach(async () => {
     await close()
-    await mongoServerInstance.stop()
+    await mongod.stop()
   })
 
   // See DocumentTS for more complete examples of integration tests
   // https://github.com/duluca/DocumentTS/tree/master/tests
   it('should open a connection with a dummy database name', async () => {
-    const runningInstance = await mongoServerInstance.runningInstance
+    const runningInstance = await mongod.instanceInfo
 
     expect(runningInstance).toBeTruthy()
   })
@@ -68,7 +67,7 @@ describe('Integration', () => {
 
     expect(expectedException).toEqual(actualException)
 
-    const dynamicInput: any = '10'
+    const dynamicInput = 10
 
     const results = await UserCollection.findWithPagination<User>({
       skip: dynamicInput,

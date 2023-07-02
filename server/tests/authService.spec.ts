@@ -8,7 +8,7 @@ import { IUser, UserCollection } from '../src/models/user'
 import { authenticateHelper, createJwt } from '../src/services/authService'
 import { initializeDemoUser } from '../src/services/userService'
 
-let mongoServerInstance: MongoMemoryServer
+let mongod: MongoMemoryServer
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
 const defaultUser: Partial<IUser> = {
@@ -36,9 +36,9 @@ describe('AuthService', () => {
   })
 
   beforeEach(async () => {
-    mongoServerInstance = new MongoMemoryServer({ instance: { dbName: 'testDb' } })
-    const uri = await mongoServerInstance.getUri()
-    await connect(uri)
+    const dbName = 'testDb'
+    mongod = await MongoMemoryServer.create({ instance: { dbName: dbName } })
+    await connect(`${mongod.getUri()}${dbName}}`)
     await initializeDemoUser(defaultUser.email, 'l0l1pop!!', defaultUserId)
     const user = await UserCollection.findOne({ email: defaultUser.email })
 
@@ -47,7 +47,7 @@ describe('AuthService', () => {
 
   afterEach(async () => {
     await close()
-    await mongoServerInstance.stop()
+    await mongod.stop()
   })
 
   describe('authenticateHelper', () => {

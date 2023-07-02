@@ -3,3 +3,4 @@
 declarations
 test_results
 .env
+!eslint.config.js

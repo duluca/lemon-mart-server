@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
 import { ObjectID } from 'mongodb'
-
 import { JwtSecret } from '../config'
 import { Role } from '../models/enums'
 import { IUser, User, UserCollection } from '../models/user'
@@ -33,11 +32,11 @@ export function createJwt(user: IUser): Promise<string> {
         subject: user._id.toHexString(),
         expiresIn: '1d',
       },
-      (err: Error, encoded: string) => {
+      (err: Error | null, encoded: string | undefined) => {
         if (err) {
           reject(err.message)
         }
-        resolve(encoded)
+        resolve(encoded ?? 'no-op')
       }
     )
   })
@@ -63,7 +62,9 @@ export function authenticate(options?: {
       })
       return next()
     } catch (ex) {
-      return res.status(401).send({ message: ex.message })
+      if (ex instanceof Error) {
+        return res.status(401).send({ message: ex.message })
+      }
     }
   }
 }
@@ -71,11 +72,13 @@ export function authenticate(options?: {
 export async function authenticateHelper(
   authorizationHeader?: string,
   options?: {
-    requiredRole?: Role
-    permitIfSelf?: {
-      id: string
-      requiredRoleCanOverride: boolean
-    }
+    requiredRole?: Role | undefined
+    permitIfSelf?:
+      | {
+          id: string
+          requiredRoleCanOverride: boolean
+        }
+      | undefined
   }
 ): Promise<User> {
   if (!authorizationHeader) {
@@ -108,8 +111,9 @@ export async function authenticateHelper(
   return currentUser
 }
 
-function sanitizeToken(authorization: string | undefined) {
+function sanitizeToken(authorization: string): string {
   const authString = authorization || ''
   const authParts = authString.split(' ')
-  return authParts.length === 2 ? authParts[1] : authParts[0]
+  const sanitizedToken = authParts.length === 2 ? authParts[1] : authParts[0]
+  return sanitizedToken ?? ''
 }

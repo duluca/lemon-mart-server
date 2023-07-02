@@ -59,5 +59,8 @@
     "sash.hoverBorder": "#5a71fa",
     "statusBarItem.remoteBackground": "#2946f8",
     "statusBarItem.remoteForeground": "#e7e7e7"
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
   }
 }

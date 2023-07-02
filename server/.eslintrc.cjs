@@ -17,4 +17,10 @@ module.exports = {
     node: true,
     mongo: true,
   },
+  rules: {
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
+    '@typescript-eslint/require-await': 'off',
+  },
 }

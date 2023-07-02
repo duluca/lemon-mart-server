@@ -1,7 +1,5 @@
-import * as http from 'http'
-
 import * as document from 'document-ts'
-
+import * as http from 'http'
 import app from './app'
 import * as config from './config'
 import { UserCollection } from './models/user'
@@ -45,6 +43,7 @@ async function start() {
 }
 
 async function createIndexes() {
+  await UserCollection.createIndexes()
   console.log('Create indexes...')
   await UserCollection.createIndexes()
 }

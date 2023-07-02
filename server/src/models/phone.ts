@@ -1,5 +1,4 @@
 import { ISerializable, SerializationStrategy, Serialize } from 'document-ts'
-
 import { PhoneType } from './enums'
 
 export interface IPhone {
@@ -8,7 +7,7 @@ export interface IPhone {
 }
 
 /**
- * @swagger
+ * @openapi
  * components:
  *   schemas:
  *     Phone:

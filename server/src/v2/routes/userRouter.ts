@@ -1,7 +1,6 @@
 import { IQueryParameters } from 'document-ts'
 import { Request, Response, Router } from 'express'
 import { ObjectID } from 'mongodb'
-
 import { Role } from '../../models/enums'
 import { IUser, User, UserCollection } from '../../models/user'
 import { authenticate } from '../../services/authService'
@@ -10,7 +9,7 @@ import { createNewUser } from '../../services/userService'
 const router = Router()
 
 /**
- * @swagger
+ * @openapi
  * components:
  *   parameters:
  *     filterParam:
@@ -49,7 +48,7 @@ const router = Router()
  */
 
 /**
- * @swagger
+ * @openapi
  * /v2/users:
  *   get:
  *     description: |
@@ -90,11 +89,12 @@ router.get(
   '/',
   authenticate({ requiredRole: Role.Manager }),
   async (req: Request, res: Response) => {
+    console.log(req)
     const query: Partial<IQueryParameters> = {
-      filter: req.query.filter,
-      limit: req.query.limit,
-      skip: req.query.skip,
-      sortKeyOrList: req.query.sortKey,
+      // filter: req.query.filter,
+      // limit: req.query.limit,
+      // skip: req.query.skip,
+      // sortKeyOrList: req.query.sortKey,
       projectionKeyOrList: ['email', 'role', '_id', 'name'],
     }
 
@@ -104,7 +104,7 @@ router.get(
 )
 
 /**
- * @swagger
+ * @openapi
  * /v2/users:
  *   post:
  *     summary: Create a new `User`
@@ -137,7 +137,7 @@ router.post(
 )
 
 /**
- * @swagger
+ * @openapi
  * /v2/users/{id}:
  *   get:
  *     description: Gets a `User` object by id
@@ -176,7 +176,7 @@ router.get(
 )
 
 /**
- * @swagger
+ * @openapi
  * /v2/users/{id}:
  *   put:
  *     summary: Updates an existing `User`
@@ -212,9 +212,9 @@ router.put(
   }),
   async (req: Request, res: Response) => {
     const userData = req.body as User
-    delete userData._id
+    userData._id = new ObjectID(req.params.userId)
     await UserCollection.findOneAndUpdate(
-      { _id: new ObjectID(req.params.userId) },
+      { _id: userData._id },
       {
         $set: userData,
       }

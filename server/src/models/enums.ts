@@ -1,5 +1,5 @@
 /**
- * @swagger
+ * @openapi
  * components:
  *   schemas:
  *     Role:
@@ -14,7 +14,7 @@ export enum Role {
 }
 
 /**
- * @swagger
+ * @openapi
  * components:
  *   schemas:
  *     PhoneType:
