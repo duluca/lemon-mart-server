@@ -1,14 +1,11 @@
 {
   "recommendations": [
-    "johnpapa.angular-essentials",
-    "PKief.material-icon-theme",
-    "formulahendry.auto-close-tag",
-    "ms-azuretools.vscode-docker",
     "eamodio.gitlens",
-    "WallabyJs.quokka-vscode",
     "esbenp.prettier-vscode",
+    "johnpapa.vscode-peacock",
+    "ms-azuretools.vscode-docker",
     "dbaeumer.vscode-eslint",
-    "expertly-simple.ng-evergreen",
-    "msjsdiag.debugger-for-edge"
+    "PKief.material-icon-theme",
+    "WallabyJs.quokka-vscode"
   ]
 }

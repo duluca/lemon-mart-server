@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: ['./tsconfig.src.json'],
+    project: ['./tsconfig.src.json', './tests/tsconfig.spec.json'],
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
@@ -16,6 +16,7 @@ module.exports = {
   env: {
     node: true,
     mongo: true,
+    jasmine: true,
   },
   rules: {
     '@typescript-eslint/no-misused-promises': 'off',

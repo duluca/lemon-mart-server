@@ -1,6 +1,6 @@
 import { IQueryParameters } from 'document-ts'
 import { Request, Response, Router } from 'express'
-import { ObjectID } from 'mongodb'
+import { ObjectId } from 'mongodb'
 import { Role } from '../../models/enums'
 import { IUser, User, UserCollection } from '../../models/user'
 import { authenticate } from '../../services/authService'
@@ -166,7 +166,7 @@ router.get(
     },
   }),
   async (req: Request, res: Response) => {
-    const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
+    const user = await UserCollection.findOne({ _id: new ObjectId(req.params.userId) })
     if (!user) {
       res.status(404).send({ message: 'User not found.' })
     } else {
@@ -212,7 +212,7 @@ router.put(
   }),
   async (req: Request, res: Response) => {
     const userData = req.body as User
-    userData._id = new ObjectID(req.params.userId)
+    userData._id = new ObjectId(req.params.userId)
     await UserCollection.findOneAndUpdate(
       { _id: userData._id },
       {
@@ -220,7 +220,7 @@ router.put(
       }
     )
 
-    const user = await UserCollection.findOne({ _id: new ObjectID(req.params.userId) })
+    const user = await UserCollection.findOne({ _id: new ObjectId(req.params.userId) })
 
     if (!user) {
       res.status(404).send({ message: 'User not found.' })

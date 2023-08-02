@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs'
 import { CollectionFactory, Document, IDocument } from 'document-ts'
-import { AggregationCursor, ObjectID } from 'mongodb'
+import { AggregationCursor, ObjectId } from 'mongodb'
 import { v4 as uuid } from 'uuid'
 import { Role } from '../models/enums'
 import { IPhone, Phone } from './phone'
@@ -149,7 +149,7 @@ export class User extends Document<IUser> implements IUser {
 
   async create(id?: string, password?: string, upsert = false) {
     if (id) {
-      this._id = new ObjectID(id)
+      this._id = new ObjectId(id)
     }
 
     if (!password) {
@@ -192,7 +192,7 @@ export class User extends Document<IUser> implements IUser {
     })
   }
 
-  hasSameId(id: ObjectID): boolean {
+  hasSameId(id: ObjectId): boolean {
     return this._id.toHexString() === id.toHexString()
   }
 }
@@ -232,7 +232,7 @@ class UserCollectionFactory extends CollectionFactory<User> {
   // Documentation: https://docs.mongodb.com/manual/aggregation/
   userSearchQuery(
     searchText: string
-  ): AggregationCursor<{ _id: ObjectID; email: string }> {
+  ): AggregationCursor<{ _id: ObjectId; email: string }> {
     const aggregateQuery = [
       {
         $match: {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
-import { ObjectID } from 'mongodb'
+import { ObjectId } from 'mongodb'
 import { JwtSecret } from '../config'
 import { Role } from '../models/enums'
 import { IUser, User, UserCollection } from '../models/user'
@@ -90,7 +90,7 @@ export async function authenticateHelper(
     JwtSecret()
   ) as IJwtPayload
   const currentUser = await UserCollection.findOne({
-    _id: new ObjectID(payload?.sub),
+    _id: new ObjectId(payload?.sub),
   })
   if (!currentUser) {
     throw new Error("User doesn't exist")
