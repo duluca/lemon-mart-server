@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:current-alpine
 
 RUN apk add --update --no-progress make python3 bash
 
@@ -12,7 +12,7 @@ WORKDIR /home/node/app
 COPY --chown=node:node package*.json ./
 RUN NODE_ENV=production
 
-RUN npm install --omit=dev --ignore-scripts=prepare
+RUN npm install --omit=dev --ignore-scripts
 
 ENV HOST "0.0.0.0"
 ENV PORT 3000
