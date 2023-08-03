@@ -1,10 +1,10 @@
 import { Request, Response, Router } from 'express'
 import { UserCollection } from '../../models/user'
 import {
-  authenticate,
   AuthenticationRequiredMessage,
-  createJwt,
   IncorrectEmailPasswordMessage,
+  authenticate,
+  createJwt,
 } from '../../services/authService'
 
 const router = Router()
@@ -45,11 +45,17 @@ const router = Router()
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 router.post('/login', async (req: Request, res: Response) => {
-  const userEmail = req.body?.email?.toLowerCase()
-  const user = await UserCollection.findOne({ email: userEmail })
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  const userEmail = req.body?.email
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  const password = req.body?.password
 
-  if (user && (await user.comparePassword(req.body.password))) {
-    return res.send({ accessToken: await createJwt(user) })
+  if (typeof userEmail === 'string' && typeof password === 'string') {
+    const user = await UserCollection.findOne({ email: userEmail.toLowerCase() })
+
+    if (user && (await user.comparePassword(password))) {
+      return res.send({ accessToken: await createJwt(user) })
+    }
   }
 
   return res.status(401).send({ message: IncorrectEmailPasswordMessage })

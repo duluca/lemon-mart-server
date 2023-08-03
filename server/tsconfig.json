@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "target": "es2021",
-    "module": "Node16",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": false, // enabling breaks js file hiding in IDE
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "lib": ["es2023"],
-    "typeRoots": ["node_modules/@types"],
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "typeRoots": ["node_modules/@types"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

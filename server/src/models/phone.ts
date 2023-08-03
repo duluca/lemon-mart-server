@@ -22,7 +22,10 @@ export interface IPhone {
  *         - digits
  */
 export class Phone implements IPhone, ISerializable {
-  constructor(public type = PhoneType.None, public digits = '') {}
+  constructor(
+    public type = PhoneType.None,
+    public digits = ''
+  ) {}
 
   static Build(phone: Partial<IPhone>) {
     return new Phone(phone.type, phone.digits)

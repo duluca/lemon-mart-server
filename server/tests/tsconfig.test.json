@@ -5,9 +5,6 @@
     "strict": false,
     "sourceMap": true,
     "noImplicitAny": false,
-    "types": [
-      "node",
-      "jasmine"
-    ]
+    "types": ["node"]
   }
 }

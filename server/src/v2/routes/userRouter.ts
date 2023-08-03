@@ -161,6 +161,7 @@ router.get(
   authenticate({
     requiredRole: Role.Manager,
     permitIfSelf: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
       idGetter: (req: Request) => req.body._id,
       requiredRoleCanOverride: true,
     },
@@ -206,6 +207,7 @@ router.put(
   authenticate({
     requiredRole: Role.Manager,
     permitIfSelf: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
       idGetter: (req: Request) => req.body._id,
       requiredRoleCanOverride: true,
     },

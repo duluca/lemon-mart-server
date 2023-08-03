@@ -1,10 +1,10 @@
 version: 2.1
 orbs:
-  coveralls: coveralls/coveralls@1.0.4
+  coveralls: coveralls/coveralls@2.2.1
 jobs:
   build_server:
     docker:
-      - image: circleci/node:lts
+      - image: node:20-bullseye
     working_directory: ~/repo/server
     steps:
       - checkout:
@@ -14,7 +14,9 @@ jobs:
             - server-modules-{{ checksum "package-lock.json" }}
 
       # check npm dependencies for security risks - run 'npm audit' to fix
-      - run: npx audit-ci --high --report-type full
+      - run:
+          name: Security Check
+          command: npx audit-ci --high --report-type full
 
       # install dependecies
       - run: npm ci
@@ -25,12 +27,18 @@ jobs:
             - ~/.npm
 
       # ensure code formatting standards are adhered to - run 'npm run style:fix' to fix
-      - run: npm run style
-      - run: npm run lint
+      - run:
+          name: Check for Code Style and Linting Issues
+          command: |
+            npm run style
+            npm run lint
 
       # run tests and store test results
-      - run: npm run pretest
-      - run: npm run test:ci
+      - run:
+          name: Run Tests and Check Code Coverage
+          command: npm run test:ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./test_results/
       - store_test_results:
           path: ./test_results
 
@@ -53,7 +61,7 @@ jobs:
             - server
   build_webapp:
     docker:
-      - image: circleci/node:lts-browsers
+      - image: cimg/node:lts-browsers
     working_directory: ~/repo/web-app
     steps:
       - checkout:
@@ -103,7 +111,7 @@ jobs:
             - dist/lemon-mart
   test_compose:
     docker:
-      - image: circleci/node:lts-browsers
+      - image: cimg/node:lts-browsers
     working_directory: ~/repo
     steps:
       - setup_remote_docker
@@ -145,7 +153,6 @@ jobs:
               -d "$LOGIN_JSON" http://localhost:3000/v1/auth/login
 
 workflows:
-  version: 2
   build-and-test-compose:
     jobs:
       - build_server

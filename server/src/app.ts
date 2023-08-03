@@ -19,6 +19,7 @@ app.use(compression())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
 app.use('/', express.static(path.join(__dirname, '../public'), { redirect: false }))
 
 app.use(api)
