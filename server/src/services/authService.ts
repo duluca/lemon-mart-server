@@ -36,6 +36,7 @@ export function createJwt(user: IUser): Promise<string> {
       (err: Error | null, encoded: string | undefined) => {
         if (err) {
           reject(err.message);
+          return
         }
         resolve(encoded ?? "no-op");
       },
