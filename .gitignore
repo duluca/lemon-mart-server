@@ -46,4 +46,4 @@ db-data
 
 !example.env
 !server-example.env
-
+!eslint.config.js

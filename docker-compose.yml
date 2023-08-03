@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   web-app:
     container_name: web
@@ -6,7 +6,7 @@ services:
       context: ./web-app
       dockerfile: nginx.Dockerfile
     ports:
-      - '8080:80'
+      - "8080:80"
     links:
       - server
     depends_on:
@@ -19,7 +19,7 @@ services:
     environment:
       - MONGO_URI=mongodb://john.smith:g00fy@lemondb:27017/lemon-mart
     ports:
-      - '3000:3000'
+      - "3000:3000"
     links:
       - database
     depends_on:
@@ -27,13 +27,13 @@ services:
 
   database:
     container_name: lemondb
-    image: duluca/minimal-mongo:4.2.2
+    image: duluca/minimal-mongo:6.0.8
     restart: always
     env_file: .env
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - 'dbdata:/data/db'
+      - "dbdata:/data/db"
 
 volumes:
   dbdata:

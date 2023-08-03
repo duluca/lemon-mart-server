@@ -1,5 +1,4 @@
 import { ISerializable, SerializationStrategy, Serialize } from 'document-ts'
-
 import { PhoneType } from './enums'
 
 export interface IPhone {
@@ -8,7 +7,7 @@ export interface IPhone {
 }
 
 /**
- * @swagger
+ * @openapi
  * components:
  *   schemas:
  *     Phone:
@@ -23,7 +22,10 @@ export interface IPhone {
  *         - digits
  */
 export class Phone implements IPhone, ISerializable {
-  constructor(public type = PhoneType.None, public digits = '') {}
+  constructor(
+    public type = PhoneType.None,
+    public digits = ''
+  ) {}
 
   static Build(phone: Partial<IPhone>) {
     return new Phone(phone.type, phone.digits)

@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { afterEach, beforeAll, beforeEach, describe, expect, test } from '@jest/globals'
+
 import { close, connect } from 'document-ts'
 import * as dotenv from 'dotenv'
 import { MongoMemoryServer } from 'mongodb-memory-server'
@@ -9,7 +13,6 @@ import { authenticateHelper, createJwt } from '../src/services/authService'
 import { initializeDemoUser } from '../src/services/userService'
 
 let mongoServerInstance: MongoMemoryServer
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
 const defaultUser: Partial<IUser> = {
   email: 'duluca@gmail.com',
@@ -24,7 +27,7 @@ describe('config', () => {
     dotenv.config({ path: 'example.env' })
   })
 
-  it('should authenticate demo user', async () => {
+  test('should authenticate demo user', async () => {
     const test = JwtSecret()
     expect(test).toBeDefined()
   })
@@ -36,9 +39,10 @@ describe('AuthService', () => {
   })
 
   beforeEach(async () => {
-    mongoServerInstance = new MongoMemoryServer({ instance: { dbName: 'testDb' } })
-    const uri = await mongoServerInstance.getUri()
-    await connect(uri)
+    mongoServerInstance = await MongoMemoryServer.create({
+      instance: { dbName: 'testDb' },
+    })
+    await connect(mongoServerInstance.getUri())
     await initializeDemoUser(defaultUser.email, 'l0l1pop!!', defaultUserId)
     const user = await UserCollection.findOne({ email: defaultUser.email })
 
@@ -51,31 +55,33 @@ describe('AuthService', () => {
   })
 
   describe('authenticateHelper', () => {
-    it('should authenticate demo user', async () => {
+    test('should authenticate demo user', async () => {
       const user = await authenticateHelper(accessToken)
 
       expect(user).toBeDefined()
-      expect(user._id.equals(defaultUserId)).toBeTrue()
+      expect(user._id.equals(defaultUserId)).toBe(true)
     })
 
-    it('should authenticate demo user as manager', async () => {
-      const user = await authenticateHelper(accessToken, { requiredRole: Role.Manager })
+    test('should authenticate demo user as manager', async () => {
+      const user = await authenticateHelper(accessToken, {
+        requiredRole: Role.Manager,
+      })
 
       expect(user).toBeDefined()
-      expect(user._id.equals(defaultUserId)).toBeTrue()
+      expect(user._id.equals(defaultUserId)).toBe(true)
     })
 
-    it('should authenticate demo user as self', async () => {
+    test('should authenticate demo user as self', async () => {
       const user = await authenticateHelper(accessToken, {
         requiredRole: Role.Manager,
         permitIfSelf: { id: defaultUserId, requiredRoleCanOverride: false },
       })
 
       expect(user).toBeDefined()
-      expect(user._id.equals(defaultUserId)).toBeTrue()
+      expect(user._id.equals(defaultUserId)).toBe(true)
     })
 
-    it('should authenticate demo user as self', async () => {
+    test('should authenticate demo user as cashier', async () => {
       let expectedException: Error
 
       try {

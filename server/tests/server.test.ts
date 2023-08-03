@@ -1,14 +1,16 @@
+import { describe, expect, test } from '@jest/globals'
+
 import api from '../src/api'
 import app from '../src/app'
 
 describe('Api', () => {
-  it('should return an Api', () => {
+  test('should return an Api', () => {
     expect(api).toBeDefined()
   })
 })
 
 describe('App', () => {
-  it('should return an App', () => {
+  test('should return an App', () => {
     expect(app).toBeDefined()
   })
 })

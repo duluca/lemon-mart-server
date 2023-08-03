@@ -1,0 +1,31 @@
+import tsc from '@typescript-eslint/eslint-plugin'
+import jest from '@eslint-plugin-jest/eslint-plugin'
+
+import tscParser from '@typescript-eslint/parser'
+import globals from 'globals'
+
+export default [
+  {
+    files: ['**/*.ts'],
+    rules: {
+      ...tsc.configs['recommended-type-checked'],
+      ...tsc.configs['stylistic-type-checked'],
+    },
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.mongo,
+      },
+      parser: tscParser,
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
+    plugins: {
+      tsc: tsc,
+      jest: jest,
+    },
+    root: true,
+  },
+]
