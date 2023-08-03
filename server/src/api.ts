@@ -1,8 +1,8 @@
-import { Router } from 'express'
-import api_v1 from './v1'
-import api_v2 from './v2'
+import { Router } from "express";
+import api_v1 from "./v1";
+import api_v2 from "./v2";
 
-const api = Router()
+const api = Router();
 
 /**
  * @openapi
@@ -29,7 +29,7 @@ const api = Router()
  *    - bearerAuth: []
  */
 // Configure all routes here
-api.use('/v2', api_v2)
-api.use('/v1', api_v1)
+api.use("/v2", api_v2);
+api.use("/v1", api_v1);
 
-export default api
+export default api;

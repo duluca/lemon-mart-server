@@ -1,9 +1,9 @@
-import swaggerJsdoc, { Options } from 'swagger-jsdoc'
-import * as packageJson from '../package.json'
+import swaggerJsdoc, { Options } from "swagger-jsdoc";
+import * as packageJson from "../package.json";
 
 const options: Options = {
   swaggerDefinition: {
-    openapi: '3.0.2',
+    openapi: "3.0.2",
     components: {},
     info: {
       title: packageJson.name,
@@ -12,20 +12,20 @@ const options: Options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Local environment',
+        url: "http://localhost:3000",
+        description: "Local environment",
       },
       {
-        url: 'https://mystagingserver.com',
-        description: 'Staging environment',
+        url: "https://mystagingserver.com",
+        description: "Staging environment",
       },
       {
-        url: 'https://myprodserver.com',
-        description: 'Production environment',
+        url: "https://myprodserver.com",
+        description: "Production environment",
       },
     ],
   },
-  apis: ['**/models/*.js', '**/v1/routes/*.js', '**/v2/routes/*.js'],
-}
+  apis: ["**/models/*.js", "**/v1/routes/*.js", "**/v2/routes/*.js"],
+};
 
-export const specs = swaggerJsdoc(options)
+export const specs = swaggerJsdoc(options);

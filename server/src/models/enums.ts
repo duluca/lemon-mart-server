@@ -7,10 +7,10 @@
  *       enum: [none, clerk, cashier, manager]
  */
 export enum Role {
-  None = 'none',
-  Clerk = 'clerk',
-  Cashier = 'cashier',
-  Manager = 'manager',
+  None = "none",
+  Clerk = "clerk",
+  Cashier = "cashier",
+  Manager = "manager",
 }
 
 /**
@@ -22,8 +22,8 @@ export enum Role {
  *       enum: [none, mobile, home, work]
  */
 export enum PhoneType {
-  None = 'none',
-  Mobile = 'mobile',
-  Home = 'home',
-  Work = 'work',
+  None = "none",
+  Mobile = "mobile",
+  Home = "home",
+  Work = "work",
 }

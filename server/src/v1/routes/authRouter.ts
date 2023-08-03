@@ -1,13 +1,13 @@
-import { Request, Response, Router } from 'express'
-import { UserCollection } from '../../models/user'
+import { Request, Response, Router } from "express";
+import { UserCollection } from "../../models/user";
 import {
   AuthenticationRequiredMessage,
   IncorrectEmailPasswordMessage,
   authenticate,
   createJwt,
-} from '../../services/authService'
+} from "../../services/authService";
 
-const router = Router()
+const router = Router();
 
 /**
  * @openapi
@@ -44,22 +44,24 @@ const router = Router()
  *       '401':
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.post('/login', async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-  const userEmail = req.body?.email
+  const userEmail = req.body?.email;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-  const password = req.body?.password
+  const password = req.body?.password;
 
-  if (typeof userEmail === 'string' && typeof password === 'string') {
-    const user = await UserCollection.findOne({ email: userEmail.toLowerCase() })
+  if (typeof userEmail === "string" && typeof password === "string") {
+    const user = await UserCollection.findOne({
+      email: userEmail.toLowerCase(),
+    });
 
     if (user && (await user.comparePassword(password))) {
-      return res.send({ accessToken: await createJwt(user) })
+      return res.send({ accessToken: await createJwt(user) });
     }
   }
 
-  return res.status(401).send({ message: IncorrectEmailPasswordMessage })
-})
+  return res.status(401).send({ message: IncorrectEmailPasswordMessage });
+});
 
 /**
  * @openapi
@@ -77,12 +79,12 @@ router.post('/login', async (req: Request, res: Response) => {
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 // tslint:disable-next-line: variable-name
-router.get('/me', authenticate(), async (_req: Request, res: Response) => {
+router.get("/me", authenticate(), async (_req: Request, res: Response) => {
   if (res.locals.currentUser) {
-    return res.send(res.locals.currentUser)
+    return res.send(res.locals.currentUser);
   }
 
-  return res.status(401).send({ message: AuthenticationRequiredMessage })
-})
+  return res.status(401).send({ message: AuthenticationRequiredMessage });
+});
 
-export default router
+export default router;

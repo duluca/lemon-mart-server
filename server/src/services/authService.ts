@@ -1,20 +1,21 @@
-import { NextFunction, Request, Response } from 'express'
-import * as jwt from 'jsonwebtoken'
-import { ObjectId } from 'mongodb'
-import { JwtSecret } from '../config'
-import { Role } from '../models/enums'
-import { IUser, User, UserCollection } from '../models/user'
+import { NextFunction, Request, Response } from "express";
+import * as jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
+import { JwtSecret } from "../config";
+import { Role } from "../models/enums";
+import { IUser, User, UserCollection } from "../models/user";
 
-export const IncorrectEmailPasswordMessage = 'Incorrect email and/or password'
-export const AuthenticationRequiredMessage = 'Request has not been authenticated'
+export const IncorrectEmailPasswordMessage = "Incorrect email and/or password";
+export const AuthenticationRequiredMessage =
+  "Request has not been authenticated";
 
 interface IJwtPayload {
-  email: string
-  role: string
-  picture: string
-  iat: number
-  exp: number
-  sub: string
+  email: string;
+  role: string;
+  picture: string;
+  iat: number;
+  exp: number;
+  sub: string;
 }
 
 export function createJwt(user: IUser): Promise<string> {
@@ -23,77 +24,81 @@ export function createJwt(user: IUser): Promise<string> {
       email: user.email,
       role: user.role,
       picture: user.picture,
-    }
+    };
 
     jwt.sign(
       payload,
       JwtSecret(),
       {
         subject: user._id.toHexString(),
-        expiresIn: '1d',
+        expiresIn: "1d",
       },
       (err: Error | null, encoded: string | undefined) => {
         if (err) {
-          reject(err.message)
+          reject(err.message);
         }
-        resolve(encoded ?? 'no-op')
-      }
-    )
-  })
+        resolve(encoded ?? "no-op");
+      },
+    );
+  });
 }
 
 export function authenticate(options?: {
-  requiredRole?: Role
+  requiredRole?: Role;
   permitIfSelf?: {
-    idGetter: (req: Request) => string
-    requiredRoleCanOverride: boolean
-  }
+    idGetter: (req: Request) => string;
+    requiredRoleCanOverride: boolean;
+  };
 }) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.locals.currentUser = await authenticateHelper(req.headers.authorization, {
-        requiredRole: options?.requiredRole,
-        permitIfSelf: options?.permitIfSelf
-          ? {
-              id: options?.permitIfSelf.idGetter(req),
-              requiredRoleCanOverride: options?.permitIfSelf.requiredRoleCanOverride,
-            }
-          : undefined,
-      })
-      return next()
+      res.locals.currentUser = await authenticateHelper(
+        req.headers.authorization,
+        {
+          requiredRole: options?.requiredRole,
+          permitIfSelf: options?.permitIfSelf
+            ? {
+                id: options?.permitIfSelf.idGetter(req),
+                requiredRoleCanOverride:
+                  options?.permitIfSelf.requiredRoleCanOverride,
+              }
+            : undefined,
+        },
+      );
+      return next();
     } catch (ex) {
       if (ex instanceof Error) {
-        return res.status(401).send({ message: ex.message })
+        return res.status(401).send({ message: ex.message });
       }
     }
-  }
+  };
 }
 
 export async function authenticateHelper(
   authorizationHeader?: string,
   options?: {
-    requiredRole?: Role | undefined
+    requiredRole?: Role | undefined;
     permitIfSelf?:
       | {
-          id: string
-          requiredRoleCanOverride: boolean
+          id: string;
+          requiredRoleCanOverride: boolean;
         }
-      | undefined
-  }
+      | undefined;
+  },
 ): Promise<User> {
   if (!authorizationHeader) {
-    throw new Error('Request is missing authorization header')
+    throw new Error("Request is missing authorization header");
   }
 
   const payload = jwt.verify(
     sanitizeToken(authorizationHeader),
-    JwtSecret()
-  ) as IJwtPayload
+    JwtSecret(),
+  ) as IJwtPayload;
   const currentUser = await UserCollection.findOne({
     _id: new ObjectId(payload?.sub),
-  })
+  });
   if (!currentUser) {
-    throw new Error("User doesn't exist")
+    throw new Error("User doesn't exist");
   }
 
   if (
@@ -101,19 +106,19 @@ export async function authenticateHelper(
     !currentUser._id.equals(options.permitIfSelf.id) &&
     !options.permitIfSelf.requiredRoleCanOverride
   ) {
-    throw new Error(`You can only edit your own records`)
+    throw new Error(`You can only edit your own records`);
   }
 
   if (options?.requiredRole && currentUser.role !== options.requiredRole) {
-    throw new Error(`You must have role: ${options.requiredRole}`)
+    throw new Error(`You must have role: ${options.requiredRole}`);
   }
 
-  return currentUser
+  return currentUser;
 }
 
 function sanitizeToken(authorization: string): string {
-  const authString = authorization || ''
-  const authParts = authString.split(' ')
-  const sanitizedToken = authParts.length === 2 ? authParts[1] : authParts[0]
-  return sanitizedToken ?? ''
+  const authString = authorization || "";
+  const authParts = authString.split(" ");
+  const sanitizedToken = authParts.length === 2 ? authParts[1] : authParts[0];
+  return sanitizedToken ?? "";
 }
