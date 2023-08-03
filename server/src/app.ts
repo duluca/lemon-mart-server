@@ -22,7 +22,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(
   "/",
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
-  express.static(path.join(__dirname, "../public"), { redirect: false })
+  express.static(path.join(__dirname, "../public"), { redirect: false }),
 );
 
 app.use(api);
