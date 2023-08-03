@@ -1,9 +1,9 @@
-import { Router } from "express";
-import userRouter from "./routes/userRouter";
+import { Router } from 'express'
+import userRouter from './routes/userRouter'
 
-const router = Router();
+const router = Router()
 
 // Configure all v2 routers here
-router.use("/user(s)?", userRouter);
+router.use('/user(s)?', userRouter)
 
-export default router;
+export default router

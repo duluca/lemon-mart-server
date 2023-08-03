@@ -1,12 +1,12 @@
-import { IQueryParameters } from "document-ts";
-import { Request, Response, Router } from "express";
-import { ObjectId } from "mongodb";
-import { Role } from "../../models/enums";
-import { IUser, User, UserCollection } from "../../models/user";
-import { authenticate } from "../../services/authService";
-import { createNewUser } from "../../services/userService";
+import { IQueryParameters } from 'document-ts'
+import { Request, Response, Router } from 'express'
+import { ObjectId } from 'mongodb'
+import { Role } from '../../models/enums'
+import { IUser, User, UserCollection } from '../../models/user'
+import { authenticate } from '../../services/authService'
+import { createNewUser } from '../../services/userService'
 
-const router = Router();
+const router = Router()
 
 /**
  * @openapi
@@ -86,22 +86,22 @@ const router = Router();
  *                     description: Summary of `User` object.
  */
 router.get(
-  "/",
+  '/',
   authenticate({ requiredRole: Role.Manager }),
   async (req: Request, res: Response) => {
-    console.log(req);
+    console.log(req)
     const query: Partial<IQueryParameters> = {
       // filter: req.query.filter,
       // limit: req.query.limit,
       // skip: req.query.skip,
       // sortKeyOrList: req.query.sortKey,
-      projectionKeyOrList: ["email", "role", "_id", "name"],
-    };
+      projectionKeyOrList: ['email', 'role', '_id', 'name'],
+    }
 
-    const users = await UserCollection.findWithPagination<User>(query);
-    res.send(users);
-  },
-);
+    const users = await UserCollection.findWithPagination<User>(query)
+    res.send(users)
+  }
+)
 
 /**
  * @openapi
@@ -123,18 +123,18 @@ router.get(
  *                 $ref: '#/components/schemas/User'
  */
 router.post(
-  "/",
+  '/',
   authenticate({ requiredRole: Role.Manager }),
   async (req: Request, res: Response) => {
-    const userData = req.body as IUser;
-    const success = await createNewUser(userData);
+    const userData = req.body as IUser
+    const success = await createNewUser(userData)
     if (success instanceof User) {
-      res.send(success);
+      res.send(success)
     } else {
-      res.status(400).send({ message: "Failed to create user." });
+      res.status(400).send({ message: 'Failed to create user.' })
     }
-  },
-);
+  }
+)
 
 /**
  * @openapi
@@ -157,7 +157,7 @@ router.post(
  *                 $ref: '#/components/schemas/User'
  */
 router.get(
-  "/:userId",
+  '/:userId',
   authenticate({
     requiredRole: Role.Manager,
     permitIfSelf: {
@@ -169,14 +169,14 @@ router.get(
   async (req: Request, res: Response) => {
     const user = await UserCollection.findOne({
       _id: new ObjectId(req.params.userId),
-    });
+    })
     if (!user) {
-      res.status(404).send({ message: "User not found." });
+      res.status(404).send({ message: 'User not found.' })
     } else {
-      res.send(user);
+      res.send(user)
     }
-  },
-);
+  }
+)
 
 /**
  * @openapi
@@ -205,7 +205,7 @@ router.get(
  *                 $ref: '#/components/schemas/User'
  */
 router.put(
-  "/:userId",
+  '/:userId',
   authenticate({
     requiredRole: Role.Manager,
     permitIfSelf: {
@@ -215,25 +215,25 @@ router.put(
     },
   }),
   async (req: Request, res: Response) => {
-    const userData = req.body as User;
-    userData._id = new ObjectId(req.params.userId);
+    const userData = req.body as User
+    userData._id = new ObjectId(req.params.userId)
     await UserCollection.findOneAndUpdate(
       { _id: userData._id },
       {
         $set: userData,
-      },
-    );
+      }
+    )
 
     const user = await UserCollection.findOne({
       _id: new ObjectId(req.params.userId),
-    });
+    })
 
     if (!user) {
-      res.status(404).send({ message: "User not found." });
+      res.status(404).send({ message: 'User not found.' })
     } else {
-      res.send(user);
+      res.send(user)
     }
-  },
-);
+  }
+)
 
-export default router;
+export default router
