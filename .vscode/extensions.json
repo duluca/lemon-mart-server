@@ -6,6 +6,8 @@
     "ms-azuretools.vscode-docker",
     "dbaeumer.vscode-eslint",
     "PKief.material-icon-theme",
-    "WallabyJs.quokka-vscode"
+    "WallabyJs.quokka-vscode",
+    "circleci.circleci",
+    "github.vscode-pull-request-github"
   ]
 }
