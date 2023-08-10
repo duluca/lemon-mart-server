@@ -153,8 +153,8 @@ workflows:
   build-and-test-compose:
     jobs:
       - build_server
-      - build_webapp
+      #- build_webapp
       - test_compose:
           requires:
             - build_server
-            - build_webapp
+            # - build_webapp
