@@ -1,54 +1,53 @@
 {
-	"version": "0.2.0",
-	"configurations": [{
-		"name": "Launch Server",
-		"type": "node",
-		"request": "launch",
-		"program": "${workspaceRoot}/server/dist/src/index.js",
-		"stopOnEntry": false,
-		"args": [],
-		"cwd": "${workspaceRoot}/server",
-		"preLaunchTask": "npm: build - server",
-		"runtimeExecutable": null,
-		"runtimeArgs": [
-			"--nolazy"
-		],
-		"env": {
-			"NODE_ENV": "development",
-		},
-		"envFile": "${workspaceFolder}/server/.env",
-		"sourceMaps": true,
-	}, {
-		"name": "Jasmine Current Spec File",
-		"type": "node",
-		"request": "launch",
-		"program": "${workspaceRoot}/server/node_modules/jasmine/bin/jasmine.js",
-		"args": [
-			"server/tests/${fileBasenameNoExtension}.js"
-		],
-		"env": {
-			"NODE_PATH": "."
-		},
-		"preLaunchTask": "npm: build:test - server"
-	}, {
-		"name": "Debug web-app with Chrome",
-		"type": "chrome",
-		"request": "launch",
-		"url": "http://localhost:5000/#",
-		"webRoot": "${workspaceRoot}/web-app",
-		"runtimeArgs": [
-			"--remote-debugging-port=9222"
-		],
-		"sourceMaps": true,
-		"preLaunchTask": "npm: start - web-app"
-	}, {
-		"name": "Debug web-app with Edge",
-		"type": "edge",
-		"request": "launch",
-		"version": "dev",
-		"url": "http://localhost:5000/#",
-		"webRoot": "${workspaceRoot}/web-app",
-		"sourceMaps": true,
-		"preLaunchTask": "npm: start - web-app"
-	}, ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Server",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/server/dist/src/index.js",
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": "${workspaceRoot}/server",
+      "preLaunchTask": "npm: build - server",
+      "runtimeExecutable": null,
+      "runtimeArgs": ["--nolazy"],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "envFile": "${workspaceFolder}/server/.env",
+      "sourceMaps": true
+    },
+    {
+      "name": "Jasmine Current Spec File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/server/node_modules/jasmine/bin/jasmine.js",
+      "args": ["server/tests/${fileBasenameNoExtension}.js"],
+      "env": {
+        "NODE_PATH": "."
+      },
+      "preLaunchTask": "npm: build:test - server"
+    },
+    {
+      "name": "Debug web-app with Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200/#",
+      "webRoot": "${workspaceRoot}/web-app",
+      "runtimeArgs": ["--remote-debugging-port=9222"],
+      "sourceMaps": true,
+      "preLaunchTask": "npm: start - web-app"
+    },
+    {
+      "name": "Debug web-app with Edge",
+      "type": "edge",
+      "request": "launch",
+      "version": "dev",
+      "url": "http://localhost:4200/#",
+      "webRoot": "${workspaceRoot}/web-app",
+      "sourceMaps": true,
+      "preLaunchTask": "npm: start - web-app"
+    }
+  ]
 }

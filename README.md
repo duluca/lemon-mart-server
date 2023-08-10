@@ -2,7 +2,7 @@
 
 > Easy to learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
-![Angular Version](https://img.shields.io/badge/angular-v10-326839)
+![Angular Version](https://img.shields.io/badge/angular-v15-326839)
 [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
 [![DeepScan grade](https://deepscan.io/api/teams/1906/projects/7949/branches/88772/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1906&pid=7949&bid=88772)
 [![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=master)](https://coveralls.io/github/duluca/lemon-mart-server?branch=master)
@@ -13,7 +13,7 @@
 
 ## Setup
 
-- Install [Node.js](https://nodejs.org/en/) v8.3+
+- Install [Node.js](https://nodejs.org/en/) v20
 - Recommended Editor/IDE: [Visual Studio Code](https://code.visualstudio.com/)
 - For a **magical** development experience download these VS Code Extensions:
   - Configure my preferred [extentions.json](https://gist.github.com/duluca/6bbd3c687beb6c84cb475fdf3eaa06f0#file-extensions-json) and [settings.json](https://gist.github.com/duluca/6bbd3c687beb6c84cb475fdf3eaa06f0#file-settings-json) files.
