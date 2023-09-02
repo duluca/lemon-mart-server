@@ -19,6 +19,10 @@ app.use(compression())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
+app.get('/swagger', function (_req, res) {
+  res.json(specs)
+})
+
 app.use(
   '/',
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call

@@ -2,7 +2,7 @@
 
 > Easy to learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
-![Angular Version](https://img.shields.io/badge/angular-v15-326839)
+![Angular Version](https://img.shields.io/badge/angular-v16-326839)
 [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
 [![DeepScan grade](https://deepscan.io/api/teams/1906/projects/7949/branches/88772/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1906&pid=7949&bid=88772)
 [![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=master)](https://coveralls.io/github/duluca/lemon-mart-server?branch=master)
@@ -89,3 +89,12 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
   - You'll need to create a new service and attach this task definition to it
   - See the [Step-by-Step AWS ECS Guide](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-step-by-step-how-to-for-aws-ecs-md) on how to create container repositories, and attaching a task definition to a service [here](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-step-by-step-how-to-for-aws-ecs-md).
   - See the [Configuring AWS ECS to have access to AWS EFS Guide](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-awc-ecs-access-to-aws-efs-md) to persist data using MongoDB [here](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-awc-ecs-access-to-aws-efs-md).
+
+## OpenAPI
+
+The OpenAPI schema for the project is hosted on `/api-docs`.
+
+## GraphQL
+
+- Read about converting an OpenAPI schema to a GraphQL scheme at https://github.com/IBM/openapi-to-graphql.
+- Use GraphQL Code Generator at https://the-guild.dev/graphql/codegen to convert your schema to a GraphQL server.

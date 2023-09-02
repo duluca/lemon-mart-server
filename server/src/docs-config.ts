@@ -4,7 +4,40 @@ import * as packageJson from '../package.json'
 const options: Options = {
   swaggerDefinition: {
     openapi: '3.0.2',
-    components: {},
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+      security: {
+        bearerAuth: [],
+      },
+      responses: {
+        UnauthorizedError: {
+          description: 'Unauthorized',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/ServerMessage',
+              },
+            },
+          },
+        },
+      },
+      schemas: {
+        ServerMessage: {
+          type: 'object',
+          properties: {
+            message: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
     info: {
       title: packageJson.name,
       version: packageJson.version,
@@ -25,7 +58,7 @@ const options: Options = {
       },
     ],
   },
-  apis: ['**/models/*.js', '**/v1/routes/*.js', '**/v2/routes/*.js'],
+  apis: ['**/models/*.js', 'src/api.js', '**/v1/routes/*.js', '**/v2/routes/*.js'],
 }
 
 export const specs = swaggerJsdoc(options)

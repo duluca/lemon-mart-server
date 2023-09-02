@@ -1,6 +1,6 @@
 {
   "name": "lemon-mart-server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Easy to learn and use full-stack TypeScript with Angular",
   "main": "index.js",
   "config": {
@@ -29,6 +29,7 @@
     "postwebapp:init": "git submodule status web-app",
     "modules:init": "git submodule update --init --recursive",
     "modules:update": "git submodule update --recursive --remote",
+    "modules:repair": "git submodule foreach git pull origin main",
     "aws:login:win": "cross-conf-env aws ecr get-login --no-include-email --region $npm_package_config_awsRegion > dockerLogin.cmd && call dockerLogin.cmd && del dockerLogin.cmd",
     "aws:login:mac": "eval $(aws ecr get-login --no-include-email --region $npm_package_config_awsRegion)",
     "aws:login": "run-p -cs aws:login:win aws:login:mac",
@@ -57,8 +58,9 @@
     "dev-norms": "^2.0.4",
     "init-dev-env": "^2.0.0",
     "npm-run-all": "^4.1.5",
+    "openapi-to-graphql-cli": "^3.0.5",
     "recursive-install": "^1.4.0",
     "rimraf": "^5.0.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   }
 }
