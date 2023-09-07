@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import * as jwt from 'jsonwebtoken'
+import { sign as jwtSign, verify as jwtVerify } from 'jsonwebtoken'
 import { ObjectId } from 'mongodb'
 import { JwtSecret } from '../config'
 import { Role } from '../models/enums'
@@ -7,6 +7,14 @@ import { IUser, User, UserCollection } from '../models/user'
 
 export const IncorrectEmailPasswordMessage = 'Incorrect email and/or password'
 export const AuthenticationRequiredMessage = 'Request has not been authenticated'
+const UserDoesntExistMessage = "User doesn't exist"
+const MissingAuthHeaderMessage = 'Request is missing authorization header'
+const CanOnlyEditOwnMessage = `You can only edit your own records`
+const MustHaveRoleMessage = `You must have role`
+
+const IntrospectionQuery: string = 'IntrospectionQuery'
+const GraphQLBaseOperation: string = 'GraphQL'
+const PermittedOperations = [GraphQLBaseOperation, IntrospectionQuery]
 
 interface IJwtPayload {
   email: string
@@ -17,6 +25,18 @@ interface IJwtPayload {
   sub: string
 }
 
+export interface IAuthOptions {
+  requiredRole?: Role
+  permitIfSelf?: {
+    id?: string
+    idGetter?: (context: never) => string
+    requiredRoleCanOverride: boolean
+  }
+  authOverridingOperations?: [string]
+}
+
+export const jwtAlgorithm = 'HS512'
+
 export function createJwt(user: IUser): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const payload = {
@@ -25,10 +45,11 @@ export function createJwt(user: IUser): Promise<string> {
       picture: user.picture,
     }
 
-    jwt.sign(
+    jwtSign(
       payload,
       JwtSecret(),
       {
+        algorithm: jwtAlgorithm,
         subject: user._id.toHexString(),
         expiresIn: '1d',
       },
@@ -43,24 +64,17 @@ export function createJwt(user: IUser): Promise<string> {
   })
 }
 
-export function authenticate(options?: {
-  requiredRole?: Role
-  permitIfSelf?: {
-    idGetter: (req: Request) => string
-    requiredRoleCanOverride: boolean
-  }
-}) {
+export function authenticate(options?: IAuthOptions) {
   return async (req: Request, res: Response, next: NextFunction) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (shouldOverrideAuth(req.body.operationName, options?.authOverridingOperations)) {
+      return next()
+    }
+
     try {
-      res.locals.currentUser = await authenticateHelper(req.headers.authorization, {
-        requiredRole: options?.requiredRole,
-        permitIfSelf: options?.permitIfSelf
-          ? {
-              id: options?.permitIfSelf.idGetter(req),
-              requiredRoleCanOverride: options?.permitIfSelf.requiredRoleCanOverride,
-            }
-          : undefined,
-      })
+      const user = await authenticateHelper(req.headers.authorization)
+      authorizeHelper(user, options, req as never)
+      res.locals.currentUser = user
       return next()
     } catch (ex) {
       if (ex instanceof Error) {
@@ -70,43 +84,67 @@ export function authenticate(options?: {
   }
 }
 
-export async function authenticateHelper(
-  authorizationHeader?: string,
-  options?: {
-    requiredRole?: Role | undefined
-    permitIfSelf?:
-      | {
-          id: string
-          requiredRoleCanOverride: boolean
-        }
-      | undefined
-  }
-): Promise<User> {
-  if (!authorizationHeader) {
-    throw new Error('Request is missing authorization header')
-  }
-
-  const payload = jwt.verify(
-    sanitizeToken(authorizationHeader),
-    JwtSecret()
-  ) as IJwtPayload
-  const currentUser = await UserCollection.findOne({
-    _id: new ObjectId(payload?.sub),
-  })
-  if (!currentUser) {
-    throw new Error("User doesn't exist")
-  }
+export function authorizeHelper(
+  currentUser: IUser,
+  options?: IAuthOptions,
+  context?: never
+) {
+  const permitIfSelf = options?.permitIfSelf
+    ? {
+        id:
+          options?.permitIfSelf?.id ??
+          (context ? options?.permitIfSelf?.idGetter?.(context) : ''),
+        requiredRoleCanOverride: options?.permitIfSelf.requiredRoleCanOverride,
+      }
+    : undefined
 
   if (
-    options?.permitIfSelf &&
-    !currentUser._id.equals(options.permitIfSelf.id) &&
-    !options.permitIfSelf.requiredRoleCanOverride
+    typeof permitIfSelf?.id === 'string' &&
+    !currentUser._id.equals(permitIfSelf.id) &&
+    !permitIfSelf.requiredRoleCanOverride
   ) {
-    throw new Error(`You can only edit your own records`)
+    throw new Error(CanOnlyEditOwnMessage)
   }
 
   if (options?.requiredRole && currentUser.role !== options.requiredRole) {
-    throw new Error(`You must have role: ${options.requiredRole}`)
+    throw new Error(`${MustHaveRoleMessage}: ${options.requiredRole}`)
+  }
+}
+
+export function shouldOverrideAuth(
+  operationName: unknown,
+  authOverridingOperations?: [string]
+) {
+  let operationToCheck: string = ''
+
+  if (typeof operationName === 'undefined') {
+    operationToCheck = GraphQLBaseOperation
+  } else if (typeof operationName === 'string') {
+    operationToCheck = operationName
+  }
+
+  return (
+    authOverridingOperations &&
+    authOverridingOperations
+      .concat(PermittedOperations)
+      .some((op) => op.toLowerCase() === operationToCheck.toLowerCase())
+  )
+}
+
+export async function authenticateHelper(authorizationHeader?: string): Promise<User> {
+  if (!authorizationHeader) {
+    throw new Error(MissingAuthHeaderMessage)
+  }
+
+  const payload = jwtVerify(sanitizeToken(authorizationHeader), JwtSecret(), {
+    algorithms: [jwtAlgorithm],
+  }) as IJwtPayload
+  const currentUser = await UserCollection.findOne({
+    _id: new ObjectId(payload?.sub),
+  })
+
+  if (!currentUser) {
+    throw new Error(UserDoesntExistMessage)
   }
 
   return currentUser

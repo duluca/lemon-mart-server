@@ -1,6 +1,6 @@
 # LemonMart Server <img src="https://user-images.githubusercontent.com/822159/76695774-8f44e180-6659-11ea-9dea-23cd61fbd2f4.png" alt="LemonMart Server" width="36"/>
 
-> Easy to learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
+> Easy to learn and use TypeScript Node.js server with REST and GraphQL APIs using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
 ![Angular Version](https://img.shields.io/badge/angular-v16-326839)
 [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
@@ -68,8 +68,8 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
 ## Development
 
 - For development purposes run each service individually
-  - Angular Web App: `cd web-app` then `npm start` -- which utilizes `ng serve` and will give you livereload. To debug use Augury
-  - Server: `cd server` then `npm start` or use the debugger within VS Code (debug configuration is already included)
+  - Angular Web App: `cd web-app` then `npm start` -- which utilizes `ng serve` and will give you livereload. To debug use Angular DevTools
+  - Server: `cd server` then `npm run watch` or use the debugger within VS Code (debug configuration is already included)
   - Database: `npm start:database` from the root
 
 ## Architecture
@@ -90,11 +90,10 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
   - See the [Step-by-Step AWS ECS Guide](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-step-by-step-how-to-for-aws-ecs-md) on how to create container repositories, and attaching a task definition to a service [here](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-step-by-step-how-to-for-aws-ecs-md).
   - See the [Configuring AWS ECS to have access to AWS EFS Guide](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-awc-ecs-access-to-aws-efs-md) to persist data using MongoDB [here](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-awc-ecs-access-to-aws-efs-md).
 
-## OpenAPI
+## REST
 
-The OpenAPI schema for the project is hosted on `/api-docs`.
+The OpenAPI schema for the project is hosted on `/api-docs` using SwaggerUI.
 
 ## GraphQL
 
-- Read about converting an OpenAPI schema to a GraphQL scheme at https://github.com/IBM/openapi-to-graphql.
-- Use GraphQL Code Generator at https://the-guild.dev/graphql/codegen to convert your schema to a GraphQL server.
+Apollo Explorer is hosted on `/graphql`.

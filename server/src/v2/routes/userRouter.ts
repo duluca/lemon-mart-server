@@ -8,6 +8,9 @@ import { createNewUser } from '../../services/userService'
 
 const router = Router()
 
+const FailedToCreateUserMessage = 'Failed to create user.'
+const UserNotFoundMessage = 'User not found.'
+
 /**
  * @openapi
  * components:
@@ -89,12 +92,11 @@ router.get(
   '/',
   authenticate({ requiredRole: Role.Manager }),
   async (req: Request, res: Response) => {
-    console.log(req)
     const query: Partial<IQueryParameters> = {
-      // filter: req.query.filter,
-      // limit: req.query.limit,
-      // skip: req.query.skip,
-      // sortKeyOrList: req.query.sortKey,
+      filter: req.query.filter as string,
+      limit: Number(req.query.limit),
+      skip: Number(req.query.skip),
+      sortKeyOrList: req.query.sortKey ? [req.query.sortKey as string] : 'name',
       projectionKeyOrList: ['email', 'role', '_id', 'name'],
     }
 
@@ -131,7 +133,7 @@ router.post(
     if (success instanceof User) {
       res.send(success)
     } else {
-      res.status(400).send({ message: 'Failed to create user.' })
+      res.status(400).send({ message: FailedToCreateUserMessage })
     }
   }
 )
@@ -171,7 +173,7 @@ router.get(
       _id: new ObjectId(req.params.userId),
     })
     if (!user) {
-      res.status(404).send({ message: 'User not found.' })
+      res.status(404).send({ message: UserNotFoundMessage })
     } else {
       res.send(user)
     }
@@ -209,8 +211,8 @@ router.put(
   authenticate({
     requiredRole: Role.Manager,
     permitIfSelf: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-      idGetter: (req: Request) => req.body._id,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+      idGetter: (req: Request) => req?.body?._id,
       requiredRoleCanOverride: true,
     },
   }),
@@ -229,7 +231,7 @@ router.put(
     })
 
     if (!user) {
-      res.status(404).send({ message: 'User not found.' })
+      res.status(404).send({ message: UserNotFoundMessage })
     } else {
       res.send(user)
     }
