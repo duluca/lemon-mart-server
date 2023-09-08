@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { afterEach, beforeAll, beforeEach, describe, expect, test } from '@jest/globals'
 
 import { close, connect } from 'document-ts'
@@ -9,8 +7,14 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { JwtSecret } from '../src/config'
 import { Role } from '../src/models/enums'
 import { IUser, UserCollection } from '../src/models/user'
-import { authenticateHelper, createJwt } from '../src/services/authService'
+import {
+  authenticateHelper,
+  authorizeHelper,
+  createJwt,
+  shouldOverrideAuth,
+} from '../src/services/authService'
 import { initializeDemoUser } from '../src/services/userService'
+import { authorize } from '../src/graphql/helpers'
 
 let mongoServerInstance: MongoMemoryServer
 
@@ -63,7 +67,8 @@ describe('AuthService', () => {
     })
 
     test('should authenticate demo user as manager', async () => {
-      const user = await authenticateHelper(accessToken, {
+      const user = await authenticateHelper(accessToken)
+      authorizeHelper(user, {
         requiredRole: Role.Manager,
       })
 
@@ -72,7 +77,8 @@ describe('AuthService', () => {
     })
 
     test('should authenticate demo user as self', async () => {
-      const user = await authenticateHelper(accessToken, {
+      const user = await authenticateHelper(accessToken)
+      authorizeHelper(user, {
         requiredRole: Role.Manager,
         permitIfSelf: { id: defaultUserId, requiredRoleCanOverride: false },
       })
@@ -85,14 +91,145 @@ describe('AuthService', () => {
       let expectedException: Error
 
       try {
-        await authenticateHelper(accessToken, {
+        const user = await authenticateHelper(accessToken)
+        authorizeHelper(user, {
           requiredRole: Role.Cashier,
         })
       } catch (ex) {
-        expectedException = ex
+        if (ex instanceof Error) {
+          expectedException = ex
+        }
       }
 
       expect(expectedException).toBeDefined()
+    })
+    describe('authorizeHelper', () => {
+      test('should authorize demo user as manager', async () => {
+        const user = await authenticateHelper(accessToken)
+        authorizeHelper(user, {
+          requiredRole: Role.Manager,
+        })
+
+        expect(user).toBeDefined()
+        expect(user._id.equals(defaultUserId)).toBe(true)
+      })
+
+      test('should authorize demo user as self', async () => {
+        const user = await authenticateHelper(accessToken)
+        authorizeHelper(user, {
+          requiredRole: Role.Manager,
+          permitIfSelf: { id: defaultUserId, requiredRoleCanOverride: false },
+        })
+
+        expect(user).toBeDefined()
+        expect(user._id.equals(defaultUserId)).toBe(true)
+      })
+
+      test('should authorize demo user as cashier', async () => {
+        let expectedException: Error
+
+        try {
+          const user = await authenticateHelper(accessToken)
+          authorizeHelper(user, {
+            requiredRole: Role.Cashier,
+          })
+        } catch (ex) {
+          if (ex instanceof Error) {
+            expectedException = ex
+          }
+        }
+
+        expect(expectedException).toBeDefined()
+      })
+    })
+    describe('createJwt', () => {
+      test('should create JWT for demo user', async () => {
+        const user = await UserCollection.findOne({ email: defaultUser.email })
+        const token = await createJwt(user)
+
+        expect(token).toBeDefined()
+      })
+    })
+    describe('shouldOverrideAuth', () => {
+      test('should override auth for Login operation', async () => {
+        const authOverridingOperations = ['Login']
+        const result = shouldOverrideAuth('Login', authOverridingOperations)
+
+        expect(result).toBe(true)
+      })
+
+      test('should override auth for login operation', async () => {
+        const authOverridingOperations = ['Login']
+        const result = shouldOverrideAuth('login', authOverridingOperations)
+
+        expect(result).toBe(true)
+      })
+
+      test('should not override auth for login operation', async () => {
+        const result = shouldOverrideAuth('login')
+
+        expect(result).toBe(false)
+      })
+
+      test('should override auth for undefined operation', async () => {
+        const operationName = undefined
+        const result = shouldOverrideAuth(operationName)
+
+        expect(result).toBe(true)
+      })
+    })
+    describe('GraphQL authorize', () => {
+      test('should authorize demo user as manager', async () => {
+        const user = await authenticateHelper(accessToken)
+        const result = authorize({ currentUser: user }, { requiredRole: Role.Manager })
+
+        expect(result).toBeDefined()
+        expect(result._id.equals(defaultUserId)).toBe(true)
+      })
+      // suggest more test cases to test authorize
+      test('should authorize demo user as self', async () => {
+        const user = await authenticateHelper(accessToken)
+        const result = authorize(
+          { currentUser: user },
+          {
+            requiredRole: Role.Manager,
+            permitIfSelf: { id: defaultUserId, requiredRoleCanOverride: false },
+          }
+        )
+
+        expect(result).toBeDefined()
+        expect(result._id.equals(defaultUserId)).toBe(true)
+      })
+      test('should authorize demo user as cashier', async () => {
+        let expectedException: Error
+
+        try {
+          const user = await authenticateHelper(accessToken)
+          authorize({ currentUser: user }, { requiredRole: Role.Cashier })
+        } catch (ex) {
+          if (ex instanceof Error) {
+            expectedException = ex
+          }
+        }
+
+        expect(expectedException).toBeDefined()
+      })
+      // test if user is not defined
+      test('should not authorize demo user as manager', async () => {
+        const user = undefined
+        let expectedException: Error
+
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          authorize({ currentUser: user }, { requiredRole: Role.Manager })
+        } catch (ex) {
+          if (ex instanceof Error) {
+            expectedException = ex
+          }
+        }
+
+        expect(expectedException).toBeDefined()
+      })
     })
   })
 })

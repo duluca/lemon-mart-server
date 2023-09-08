@@ -34,18 +34,3 @@ export function authorize(contextValue: IAuthContext, options?: IAuthOptions): I
   }
   return user
 }
-
-// export function getTopLevelFields(info: GraphQLResolveInfo): string[] {
-//   return info.fieldNodes.reduce((all: string[], currentNode) => {
-//     all.push(
-//       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-//       ...currentNode.selectionSet.selections.map((selection) => {
-//         //selection.directives.map((directive) => { directive.name.value })
-//         // or if selection.selectionSet is present, we can recursively get it's name.value, ('c' in this example)
-//         // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
-//         return selection.name.value
-//       })
-//     )
-//     return all
-//   }, [])
-// }

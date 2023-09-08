@@ -113,7 +113,7 @@ export function authorizeHelper(
 
 export function shouldOverrideAuth(
   operationName: unknown,
-  authOverridingOperations?: [string]
+  authOverridingOperations?: string[]
 ) {
   let operationToCheck: string = ''
 
@@ -123,12 +123,9 @@ export function shouldOverrideAuth(
     operationToCheck = operationName
   }
 
-  return (
-    authOverridingOperations &&
-    authOverridingOperations
-      .concat(PermittedOperations)
-      .some((op) => op.toLowerCase() === operationToCheck.toLowerCase())
-  )
+  const permissionsList = PermittedOperations.concat(authOverridingOperations ?? [])
+
+  return permissionsList.some((op) => op.toLowerCase() === operationToCheck.toLowerCase())
 }
 
 export async function authenticateHelper(authorizationHeader?: string): Promise<User> {
