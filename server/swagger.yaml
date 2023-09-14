@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: lemon-mart-server
   description: Easy to learn and use full-stack TypeScript with Mongo, Express, Angular and Node
-  version: "3.0.0"
+  version: '3.0.0'
 
 servers:
   - url: http://localhost:3000
@@ -24,7 +24,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ServerMessage"
+            $ref: '#/components/schemas/ServerMessage'
   schemas:
     ServerMessage:
       type: object
@@ -41,7 +41,7 @@ components:
       type: object
       properties:
         type:
-          $ref: "#/components/schemas/PhoneType"
+          $ref: '#/components/schemas/PhoneType'
         digits:
           type: string
       required:
@@ -67,11 +67,11 @@ components:
         email:
           type: string
         name:
-          $ref: "#/components/schemas/Name"
+          $ref: '#/components/schemas/Name'
         picture:
           type: string
         role:
-          $ref: "#/components/schemas/Role"
+          $ref: '#/components/schemas/Role'
         userStatus:
           type: boolean
         dateOfBirth:
@@ -98,7 +98,7 @@ components:
         phones:
           type: array
           items:
-            $ref: "#/components/schemas/Phone"
+            $ref: '#/components/schemas/Phone'
       required:
         - email
         - name
@@ -158,7 +158,7 @@ paths:
                 - email
                 - password
       responses:
-        "200": # Response
+        '200': # Response
           description: OK
           content:
             application/json:
@@ -168,33 +168,33 @@ paths:
                   accessToken:
                     type: string
                 description: JWT token that contains userId as subject, email and role as data payload.
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
   /v1/auth/me:
     get:
       description: Gets the `User` object of the logged in user
       security:
         - bearerAuth: []
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
   /v2/users:
     get:
       description: |
         Searches, sorts, paginates and returns a summary of `User` objects.
       parameters:
-        - $ref: "#/components/parameters/filterParam"
-        - $ref: "#/components/parameters/skipParam"
-        - $ref: "#/components/parameters/limitParam"
-        - $ref: "#/components/parameters/sortKeyParam"
+        - $ref: '#/components/parameters/filterParam'
+        - $ref: '#/components/parameters/skipParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortKeyParam'
       responses:
-        "200": # Response
+        '200': # Response
           description: OK
           content:
             application/json:
@@ -215,9 +215,9 @@ paths:
                         fullName:
                           type: string
                         name:
-                          $ref: "#/components/schemas/Name"
+                          $ref: '#/components/schemas/Name'
                         role:
-                          $ref: "#/components/schemas/Role"
+                          $ref: '#/components/schemas/Role'
                       description: Summary of `User` object.
     post:
       summary: Create a new `User`
@@ -226,14 +226,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: '#/components/schemas/User'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
   /v2/users/{id}:
     get:
       description: Gets a `User` object by id
@@ -245,12 +245,12 @@ paths:
             type: string
           description: User's unique id
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
     put:
       summary: Updates an existing `User`
       parameters:
@@ -265,11 +265,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: '#/components/schemas/User'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
