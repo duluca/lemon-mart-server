@@ -5,55 +5,245 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="/favicon.ico?v=rMlKOnvxlK" />
+    <link
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+      rel="stylesheet" />
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@highlightjs/cdn-assets@11.8.0/styles/github-dark-dimmed.min.css" />
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.8.0/highlight.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="stylesheet" href="styles.css"/>
   </head>
+  <body class="mdc-typography">
+    <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+      <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+          <img
+          class="left-pad icon-size"
+          src="lemon-server.png"
+          aria-label="Server icon" />
+          <span class="mdc-top-app-bar__title">LemonMart Server</span>
+        </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+          <a
+            class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded"
+            aria-label="Source Code"
+            href="https://github.com/duluca/lemon-mart-server"
+            target="_blank"
+            >code</a
+          >
+          <a
+            class="github-button"
+            href="https://github.com/duluca/lemon-mart-server"
+            data-icon="octicon-star"
+            data-size="large"
+            data-show-count="true"
+            aria-label="Star duluca/lemon-mart-server on GitHub"
+            >Star</a
+          >
+        </section>
+      </div>
+    </header>
+    <div style="padding-top: 66px">
+      <div class="mdc-layout-grid">
+        <div class="mdc-layout-grid__inner">
+          <div class="mdc-layout-grid__cell">
+            <div class="mdc-card mdc-card--outlined mdc-elevation--z8 card">
+              <div class="mdc-card__primary-action h-pad">
+                <h2 class="mdc-typography--headline6">
+                  Launch the Web App
+                </h2>
+                <div>
+                  <div class="mdc-typography--body2">Start the entire stack (database, backend, and frontend) by executing:</div>
+                  <pre class="v-pad"><code><b>$</b> docker compose up</code></pre>
+                  <div class="mdc-typography--body2">
+                    The frontend should be available at
+                    <a href="http://localhost:8080">http://localhost:8080</a>.
+                  </div>
+                </div>
+              </div>
+              <div class="mdc-card__actions">
+                <div class="mdc-card__action-buttons">
+                  <a
+                    href="http://localhost:8080"
+                    class="mdc-button mdc-card__action mdc-card__action--button">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Browse on 8080</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mdc-layout-grid__cell">
+            <div class="mdc-card mdc-card--outlined mdc-elevation--z8 card">
+              <div class="mdc-card__primary-action">
+                <div class="mdc-card__media mdc-card__media--16-9" style="background-image: url(&quot;lemonxdts.png&quot;); background-size: 70%;">
+                </div>
+                <div class="h-pad">
+                  LemonMart, the enterprise-ready Angular template project with RBAC pre-configured, is powered by DocumentTS, a lightweight TypeScript MongoDB ODM with standout convenience features. Get them both today!
+                </div>
+              </div>
+              <div class="mdc-card__actions">
+                <div class="mdc-card__action-buttons">
+                  <a
+                    href="https://www.npmjs.com/package/document-ts"
+                    class="mdc-button mdc-card__action mdc-card__action--button">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Install DocumentTS</span>
+                  </a>
+                  <a
+                    href="https://github.com/duluca/lemon-mart"
+                    class="mdc-button mdc-card__action mdc-card__action--button">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Fork LemonMart</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="mdc-layout-grid">
+          <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell">
+              <div class="mdc-card mdc-card--outlined mdc-elevation--z8 card">
+                <div class="mdc-card__primary-action h-pad">
+                  <h2 class="mdc-typography--headline6">REST API</h2>
+                  <div class="mdc-typography--body2">
+                    <div class="mdc-typography--body2">
+                      <em>Interactive</em> SwaggerUI documentation can be found at
+                      <a href="/api-docs">/api-docs</a>.
+                    </div>
+                    <div class="mdc-typography--body2">
+                      To create users, either use <a href="/api-docs">/api-docs</a> or <a href="https://www.getpostman.com/">Postman</a> (or similar) and POST the sample data.
+                    </div>
+                  </div>
+                </div>
+                <div class="mdc-card__actions">
+                  <div class="mdc-card__action-buttons">
+                    <a
+                      href="/api-docs"
+                      class="mdc-button mdc-card__action mdc-card__action--button">
+                      <div class="mdc-button__ripple"></div>
+                      <span class="mdc-button__label">Launch Swagger UI</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mdc-layout-grid__cell">
+              <div class="codewin-mac mdc-elevation--z8">
+                <div class="codewin-head">
+                  <div class="codewin-buttons">
+                    <div class="btn-mac mac-close"></div>
+                    <div class="btn-mac mac-mini"></div>
+                    <div class="btn-mac mac-full"></div>
+                  </div>
+                  <div class="codewin-head-text">REST</div>
+                </div>
+                <pre>
+                  <code class="language-javascript">
+Method: POST http://localhost:3000/user
+Headers:
+  Content-Type application/json
+  Authorization accessToken_from_login
+Body: raw
+{
+  "email": "vader@bronies.com",
+  "name": {
+    "first": "Darth",
+    "middle": "Mortimer",
+    "last": "Vader"
+  },
+  "role": "Manager",
+  "userStatus": true,
+}
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mdc-layout-grid">
+          <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell">
+              <div class="mdc-card mdc-card--outlined mdc-elevation--z8 card">
+                <div class="mdc-card__primary-action h-pad">
+                  <h2 class="mdc-typography--headline6">GraphQL</h2>
+                  <div class="mdc-typography--body2">
+                    <div class="mdc-typography--body2">
+                      <em>Interactive</em> GraphQL Explorer can be found at
+                      <a href="/graphql">/graphql</a>.
+                    </div>
+                    <div class="mdc-typography--body2">
+                      To create users, use the Explorer to run the sample query.
+                    </div>
+                  </div>
+                </div>
+                <div class="mdc-card__actions">
+                  <div class="mdc-card__action-buttons">
+                    <a
+                      href="/graphql"
+                      class="mdc-button mdc-card__action mdc-card__action--button">
+                      <div class="mdc-button__ripple"></div>
+                      <span class="mdc-button__label">Launch Explorer</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mdc-layout-grid__cell">
+              <div class="codewin-mac mdc-elevation--z8">
+                <div class="codewin-head">
+                  <div class="codewin-buttons">
+                    <div class="btn-mac mac-close"></div>
+                    <div class="btn-mac mac-mini"></div>
+                    <div class="btn-mac mac-full"></div>
+                  </div>
+                  <div class="codewin-head-text">GraphQL</div>
+                </div>
+                <pre><code class="language-graphql">
+# Operation
+mutation CreateUser($userInput: UserInput!) {
+  createUser(userInput: $userInput) {
+    id
+  }
+}
 
-  <body>
-    <style>
-      code {
-        border: 1px solid #000033;
-        background-color: #eee;
-        padding: 10px;
-        font: 300 12px tahoma;
-        display: block;
-      }
-    </style>
-    Server is up and running!<br />
-    <br />
-    <em>Interactive</em> REST API Documentation can be found at
-    <a href="/api-docs">/api-docs</a>.<br />
-    <br />
-    <em>Interactive</em> GraphQL interface can be found at
-    <a href="/graphql">/graphql</a>.<br />
-    <br />
-    If you used <b>docker-compose up</b>, Angular App should be at
-    <a href="http://localhost:8080">http://localhost:8080</a>.<br />
-    <br />
-    To create users either use <a href="/api-docs">/api-docs</a> or
-    <a href="https://www.getpostman.com/">Postman</a> (or similar) and POST the following
-    data:<br />
-    <code>
-      POST http://localhost:3000/user<br />
-      Headers: Content-Type application/json<br />
-      Body: raw<br />
-      {<br />
-      "email": "vader@bronies.com",<br />
-      "firstName": "Darth",<br />
-      "lastName": "Vader",<br />
-      "role": "Night Manager"<br />
-      }<br />
-    </code>
-    <br />
-    More information can be found on GitHub at
-    <a href="https://github.com/duluca/lemon-mart"
-      >https://github.com/duluca/lemon-mart</a
-    >
-    <img width="12px" src="lemon.svg" /><br />
-    <br />
-    <div>
-      <span style="vertical-align: top; font-weight: bold">Powered by</span>
-      <a href="https://www.npmjs.com/package/document-ts"
-        ><img width="150px" src="document-ts.png" /></a
-      ><br />
+# Variables
+{
+  "userInput": {
+    "email": "vader@bronies.com",
+    "name": {
+      "first": "Darth",
+      "middle": "Mortimer",
+      "last": "Vader"
+    },
+    "role": "Manager",
+    "userStatus": true,
+  }
+}
+
+# Headers
+Authorization accessToken_from_login
+
+
+          </code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <script>
+      window.onload = function () {
+        hljs.highlightAll()
+      }
+    </script>
   </body>
 </html>

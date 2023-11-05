@@ -5,7 +5,7 @@ type Query {
 
   # Gets a `User` object by id
   # Equivalent to GET /v2/users/{id}
-  user(id: String!): User
+  user(id: ID!): User
 
   # Searches, sorts, paginates and returns a summary of `User` objects.
   # Equivalent to GET /v2/users
@@ -21,7 +21,7 @@ type User {
   address: Address
   dateOfBirth: String
   email: String!
-  id: String
+  id: ID!
   level: Float
   name: Name!
   phones: [Phone]
@@ -51,12 +51,14 @@ type Phone {
 }
 
 enum PhoneType {
+  None
   Mobile
   Home
   Work
 }
 
 enum Role {
+  None
   Clerk
   Cashier
   Manager
@@ -73,7 +75,7 @@ type Mutation {
 
   # Updates an existing `User`
   # Equivalent to PUT /v2/users/{id}
-  updateUser(id: String!, userInput: UserInput!): User
+  updateUser(id: ID!, userInput: UserInput!): User
 }
 
 # JWT token that contains userId as subject, email and role as data payload.

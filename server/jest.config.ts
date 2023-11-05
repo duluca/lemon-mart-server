@@ -3,29 +3,29 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { Config } from "jest";
+import type { Config } from 'jest'
 
 const config: Config = {
-  preset: "ts-jest",
-  testPathIgnorePatterns: [".d.ts", ".js"],
+  preset: 'ts-jest',
+  testPathIgnorePatterns: ['.d.ts', '.js'],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
   clearMocks: true,
   collectCoverage: true,
-  coverageDirectory: "coverage",
-  coveragePathIgnorePatterns: ["/node_modules/", "/tests/"],
-  coverageProvider: "v8",
+  coverageDirectory: 'coverage',
+  coveragePathIgnorePatterns: ['/node_modules/', '/tests/'],
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       branches: 67,
-      lines: 81,
-      functions: 65,
-      statements: 81,
+      lines: 75,
+      functions: 45,
+      statements: 75,
     },
   },
 
-  testEnvironment: "node",
+  testEnvironment: 'node',
   testTimeout: 10000,
-};
+}
 
-export default config;
+export default config

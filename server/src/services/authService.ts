@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { sign as jwtSign, verify as jwtVerify } from 'jsonwebtoken'
 import { ObjectId } from 'mongodb'
 import { JwtSecret } from '../config'
+import { GraphQLPath } from '../graphql/api.graphql'
 import { Role } from '../models/enums'
 import { IUser, User, UserCollection } from '../models/user'
 
@@ -66,8 +67,14 @@ export function createJwt(user: IUser): Promise<string> {
 
 export function authenticate(options?: IAuthOptions) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (shouldOverrideAuth(req.body.operationName, options?.authOverridingOperations)) {
+    if (
+      shouldOverrideAuth(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        (req?.body?.operationName as string) ?? 'no-op',
+        options?.authOverridingOperations,
+        req?.originalUrl
+      )
+    ) {
       return next()
     }
 
@@ -112,20 +119,15 @@ export function authorizeHelper(
 }
 
 export function shouldOverrideAuth(
-  operationName: unknown,
-  authOverridingOperations?: string[]
+  operationName: string,
+  authOverridingOperations?: string[],
+  url?: string
 ) {
-  let operationToCheck: string = ''
-
-  if (typeof operationName === 'undefined') {
-    operationToCheck = GraphQLBaseOperation
-  } else if (typeof operationName === 'string') {
-    operationToCheck = operationName
+  if (operationName === 'no-op' && url?.includes(GraphQLPath)) {
+    operationName = GraphQLBaseOperation
   }
-
   const permissionsList = PermittedOperations.concat(authOverridingOperations ?? [])
-
-  return permissionsList.some((op) => op.toLowerCase() === operationToCheck.toLowerCase())
+  return permissionsList.some((op) => op.toLowerCase() === operationName.toLowerCase())
 }
 
 export async function authenticateHelper(authorizationHeader?: string): Promise<User> {

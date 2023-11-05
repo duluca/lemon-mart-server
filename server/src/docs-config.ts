@@ -3,7 +3,7 @@ import * as packageJson from '../package.json'
 
 const options: Options = {
   swaggerDefinition: {
-    openapi: '3.0.2',
+    openapi: '3.1.0',
     components: {
       securitySchemes: {
         bearerAuth: {

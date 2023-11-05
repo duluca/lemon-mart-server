@@ -9,6 +9,8 @@ import { resolvers } from './resolvers'
 
 const typeDefs = readFileSync('./src/graphql/schema.graphql', { encoding: 'utf-8' })
 
+export const GraphQLPath = '/graphql'
+
 interface AuthContext {
   currentUser?: IUser
 }
@@ -21,9 +23,9 @@ export async function useGraphQL(app: Express) {
 
   await server.start()
 
-  app.use('/graphql', authenticate({ authOverridingOperations: ['Login'] }))
+  app.use(GraphQLPath, authenticate({ authOverridingOperations: ['Login'] }))
   app.use(
-    '/graphql',
+    GraphQLPath,
     cors<cors.CorsRequest>(),
     json(),
     expressMiddleware(server, {

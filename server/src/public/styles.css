@@ -1,0 +1,103 @@
+:root {
+  --mdc-theme-primary: #2e7d32;
+  --mdc-theme-secondary: #c6ff00;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.top-pad {
+  margin-top: 16px;
+}
+
+.h-pad {
+  margin: 0 16px;
+}
+
+.v-pad {
+  margin: 16px 0;
+}
+
+.left-pad {
+  margin-left: 8px;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+.icon-size {
+  width: 24px;
+}
+
+.card .mdc-card__actions {
+  margin-top: auto;
+}
+
+pre {
+  margin-top: -16px;
+  margin-bottom: -32px;
+}
+.codewin-mac {
+  border: 1px solid #e6e6e6;
+  border-radius: 0.5em;
+  /* box-shadow: 0 0 24px rgba(0, 0, 0, 0.1); */
+  overflow: hidden;
+}
+.codewin-head,
+.codewin-buttons {
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  align-items: center;
+  display: -moz-box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  justify-content: center;
+}
+
+.codewin-head {
+  border-bottom: 1px solid #e6e6e6;
+  background-color: #202020;
+  height: 2rem;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.codewin-head-text {
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.875rem;
+}
+
+.codewin-buttons {
+  bottom: 0;
+  left: 0.5rem;
+  position: absolute;
+  top: 0;
+}
+
+.btn-mac {
+  border-radius: 50%;
+  height: 0.75rem;
+  margin: 0 0.125rem;
+  width: 0.75rem;
+}
+
+.mac-close {
+  background-color: #ff5f56;
+}
+
+.mac-mini {
+  background-color: #ffbd2e;
+}
+
+.mac-full {
+  background-color: #27c93f;
+}

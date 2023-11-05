@@ -5,6 +5,8 @@ import * as dotenv from 'dotenv'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 
 import { JwtSecret } from '../src/config'
+import { GraphQLPath } from '../src/graphql/api.graphql'
+import { authorize } from '../src/graphql/helpers'
 import { Role } from '../src/models/enums'
 import { IUser, UserCollection } from '../src/models/user'
 import {
@@ -14,7 +16,6 @@ import {
   shouldOverrideAuth,
 } from '../src/services/authService'
 import { initializeDemoUser } from '../src/services/userService'
-import { authorize } from '../src/graphql/helpers'
 
 let mongoServerInstance: MongoMemoryServer
 
@@ -171,11 +172,18 @@ describe('AuthService', () => {
         expect(result).toBe(false)
       })
 
-      test('should override auth for undefined operation', async () => {
-        const operationName = undefined
-        const result = shouldOverrideAuth(operationName)
+      test('should override auth for no-op operation from graphql', async () => {
+        const operationName = 'no-op'
+        const result = shouldOverrideAuth(operationName, undefined, GraphQLPath)
 
         expect(result).toBe(true)
+      })
+
+      test('should not override auth for no-op operation from non-graphql', async () => {
+        const operationName = 'no-op'
+        const result = shouldOverrideAuth(operationName, undefined, '/v1/auth/me')
+
+        expect(result).toBe(false)
       })
     })
     describe('GraphQL authorize', () => {
