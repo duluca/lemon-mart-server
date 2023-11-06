@@ -1,11 +1,11 @@
 # LemonMart Server <img src="https://user-images.githubusercontent.com/822159/76695774-8f44e180-6659-11ea-9dea-23cd61fbd2f4.png" alt="LemonMart Server" width="36"/>
 
-> Easy to learn and use TypeScript Express.js server with REST, GraphQL, and MongoDB using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
+Easy to learn and use TypeScript Express.js server with REST, GraphQL, and MongoDB using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
 ![Angular Version](https://img.shields.io/badge/angular-v16-326839)
 [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
 [![DeepScan grade](https://deepscan.io/api/teams/1906/projects/7949/branches/88772/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1906&pid=7949&bid=88772)
-[![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=master)](https://coveralls.io/github/duluca/lemon-mart-server?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=main)](https://coveralls.io/github/duluca/lemon-mart-server?branch=main)
 
 ![lemon-server](https://github.com/duluca/lemon-mart-server/assets/822159/6fcb0f53-d59c-4c03-b8e9-0e06bfdcfbf8)
 
