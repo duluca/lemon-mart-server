@@ -129,6 +129,7 @@ jobs:
       - run:
           name: Verify db login with api
           command: |
+            sleep 30
             set -x
             docker run --network container:lemon-mart-server jwilder/dockerize -wait http://localhost:3000
             docker run --network container:lemon-mart-server appropriate/curl \
