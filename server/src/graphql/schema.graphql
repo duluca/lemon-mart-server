@@ -1,0 +1,120 @@
+type Query {
+  # Gets the `User` object of the logged in user
+  # Equivalent to GET /v1/auth/me
+  me: User
+
+  # Gets a `User` object by id
+  # Equivalent to GET /v2/users/{id}
+  user(id: ID!): User
+
+  # Searches, sorts, paginates and returns a summary of `User` objects.
+  # Equivalent to GET /v2/users
+  users(filter: String, limit: Int = 10, skip: Int = 10, sortKey: String = "name"): Users
+}
+
+type Users {
+  data: [User!]!
+  total: Int!
+}
+
+type User {
+  address: Address
+  dateOfBirth: String
+  email: String!
+  id: ID!
+  level: Float
+  name: Name!
+  phones: [Phone]
+  picture: String
+  role: Role!
+  userStatus: Boolean!
+  fullName: String
+}
+
+type Address {
+  city: String!
+  line1: String!
+  line2: String
+  state: String!
+  zip: String!
+}
+
+type Name {
+  first: String!
+  last: String!
+  middle: String
+}
+
+type Phone {
+  digits: String!
+  type: PhoneType!
+}
+
+enum PhoneType {
+  None
+  Mobile
+  Home
+  Work
+}
+
+enum Role {
+  None
+  Clerk
+  Cashier
+  Manager
+}
+
+type Mutation {
+  # Generates a JWT, given correct credentials.
+  # Equivalent to POST /v1/auth/login
+  login(email: String!, password: String!): JWT
+
+  # Create a new `User`
+  # Equivalent to POST /v2/users
+  createUser(userInput: UserInput!): User
+
+  # Updates an existing `User`
+  # Equivalent to PUT /v2/users/{id}
+  updateUser(id: ID!, userInput: UserInput!): User
+}
+
+# JWT token that contains userId as subject, email and role as data payload.
+type JWT {
+  accessToken: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input UserInput {
+  address: AddressInput
+  dateOfBirth: String
+  email: String!
+  level: Float
+  name: NameInput!
+  phones: [PhoneInput]
+  picture: String
+  role: Role!
+  userStatus: Boolean!
+}
+
+input AddressInput {
+  city: String!
+  line1: String!
+  line2: String
+  state: String!
+  zip: String!
+}
+
+input NameInput {
+  first: String!
+  last: String!
+  middle: String
+}
+
+input PhoneInput {
+  digits: String!
+  type: PhoneType!
+}

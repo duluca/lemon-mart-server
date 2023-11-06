@@ -1,8 +1,8 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
-  title: LemonMart
-  description: LemonMart API
-  version: "2.0.0"
+  title: lemon-mart-server
+  description: Easy to learn and use full-stack TypeScript with Mongo, Express, Angular and Node
+  version: '3.0.0'
 
 servers:
   - url: http://localhost:3000
@@ -24,7 +24,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ServerMessage"
+            $ref: '#/components/schemas/ServerMessage'
   schemas:
     ServerMessage:
       type: object
@@ -41,7 +41,7 @@ components:
       type: object
       properties:
         type:
-          $ref: "#/components/schemas/PhoneType"
+          $ref: '#/components/schemas/PhoneType'
         digits:
           type: string
       required:
@@ -67,11 +67,11 @@ components:
         email:
           type: string
         name:
-          $ref: "#/components/schemas/Name"
+          $ref: '#/components/schemas/Name'
         picture:
           type: string
         role:
-          $ref: "#/components/schemas/Role"
+          $ref: '#/components/schemas/Role'
         userStatus:
           type: boolean
         dateOfBirth:
@@ -98,7 +98,7 @@ components:
         phones:
           type: array
           items:
-            $ref: "#/components/schemas/Phone"
+            $ref: '#/components/schemas/Phone'
       required:
         - email
         - name
@@ -171,7 +171,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
   /v1/auth/me:
-   get:
+    get:
       description: Gets the `User` object of the logged in user
       security:
         - bearerAuth: []
@@ -194,7 +194,7 @@ paths:
         - $ref: '#/components/parameters/limitParam'
         - $ref: '#/components/parameters/sortKeyParam'
       responses:
-        "200": # Response
+        '200': # Response
           description: OK
           content:
             application/json:
@@ -215,9 +215,9 @@ paths:
                         fullName:
                           type: string
                         name:
-                          $ref: "#/components/schemas/Name"
+                          $ref: '#/components/schemas/Name'
                         role:
-                          $ref: "#/components/schemas/Role"
+                          $ref: '#/components/schemas/Role'
                       description: Summary of `User` object.
     post:
       summary: Create a new `User`
@@ -228,12 +228,12 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-         '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/User'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
   /v2/users/{id}:
     get:
       description: Gets a `User` object by id
@@ -245,12 +245,12 @@ paths:
             type: string
           description: User's unique id
       responses:
-         '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/User'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     put:
       summary: Updates an existing `User`
       parameters:
@@ -267,9 +267,9 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-         '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/User'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'

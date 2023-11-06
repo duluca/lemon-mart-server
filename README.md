@@ -1,8 +1,8 @@
 # LemonMart Server <img src="https://user-images.githubusercontent.com/822159/76695774-8f44e180-6659-11ea-9dea-23cd61fbd2f4.png" alt="LemonMart Server" width="36"/>
 
-Easy to learn and use TypeScript Express.js server with REST, GraphQL, and MongoDB using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
+> Easy to learn and use TypeScript Express.js server with REST, GraphQL, and MongoDB using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
-![Angular Version](https://img.shields.io/badge/angular-v10-326839)
+![Angular Version](https://img.shields.io/badge/angular-v16-326839)
 [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/master.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/master)
 [![DeepScan grade](https://deepscan.io/api/teams/1906/projects/7949/branches/88772/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1906&pid=7949&bid=88772)
 [![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=master)](https://coveralls.io/github/duluca/lemon-mart-server?branch=master)
@@ -15,7 +15,7 @@ Easy to learn and use TypeScript Express.js server with REST, GraphQL, and Mongo
 
 ## Setup
 
-- Install [Node.js](https://nodejs.org/en/) v8.3+
+- Install [Node.js](https://nodejs.org/en/) v20
 - Recommended Editor/IDE: [Visual Studio Code](https://code.visualstudio.com/)
 - For a **magical** development experience download these VS Code Extensions:
   - Configure my preferred [extentions.json](https://gist.github.com/duluca/6bbd3c687beb6c84cb475fdf3eaa06f0#file-extensions-json) and [settings.json](https://gist.github.com/duluca/6bbd3c687beb6c84cb475fdf3eaa06f0#file-settings-json) files.
@@ -70,8 +70,8 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
 ## Development
 
 - For development purposes run each service individually
-  - Angular Web App: `cd web-app` then `npm start` -- which utilizes `ng serve` and will give you livereload. To debug use Augury
-  - Server: `cd server` then `npm start` or use the debugger within VS Code (debug configuration is already included)
+  - Angular Web App: `cd web-app` then `npm start` -- which utilizes `ng serve` and will give you livereload. To debug use Angular DevTools
+  - Server: `cd server` then `npm run watch` or use the debugger within VS Code (debug configuration is already included)
   - Database: `npm start:database` from the root
 
 ## Architecture
@@ -91,3 +91,11 @@ MONGO_URI=mongodb://john.smith:g00fy@localhost:27017/acme
   - You'll need to create a new service and attach this task definition to it
   - See the [Step-by-Step AWS ECS Guide](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-step-by-step-how-to-for-aws-ecs-md) on how to create container repositories, and attaching a task definition to a service [here](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-step-by-step-how-to-for-aws-ecs-md).
   - See the [Configuring AWS ECS to have access to AWS EFS Guide](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-awc-ecs-access-to-aws-efs-md) to persist data using MongoDB [here](https://gist.github.com/duluca/ebcf98923f733a1fdb6682f111b1a832#file-awc-ecs-access-to-aws-efs-md).
+
+## REST
+
+The OpenAPI schema for the project is hosted on `/api-docs` using SwaggerUI.
+
+## GraphQL
+
+Apollo Explorer is hosted on `/graphql`.

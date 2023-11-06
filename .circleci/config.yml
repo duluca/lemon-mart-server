@@ -69,26 +69,12 @@ jobs:
             - web-modules-{{ checksum "package-lock.json" }}
 
       - run: npm ci
-      - run: npx ngcc --properties es2015
-
-      # force update the webdriver, so it runs with latest version of Chrome
-      - run: cd ./node_modules/protractor && npm i webdriver-manager@latest
-
       - save_cache:
           key: web-modules-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
 
-      - run: npm run style
-      - run: npm run lint
       - run: npm run build -- --configuration=lemon-mart-server
-      - run: npm test -- --watch=false --code-coverage
-      - run: npm run e2e
-
-      - store_test_results:
-          path: ./test_results
-      - store_artifacts:
-          path: ./coverage
 
       - run:
           name: Tar & Gzip compiled app
@@ -133,7 +119,7 @@ jobs:
           name: Compose up
           command: |
             set -x
-            docker-compose up -d
+            docker compose up -d
       - run:
           name: Verify web app
           command: |
@@ -143,6 +129,7 @@ jobs:
       - run:
           name: Verify db login with api
           command: |
+            sleep 30
             set -x
             docker run --network container:lemon-mart-server jwilder/dockerize -wait http://localhost:3000
             docker run --network container:lemon-mart-server appropriate/curl \

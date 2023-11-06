@@ -2,6 +2,7 @@ import * as document from 'document-ts'
 import * as http from 'http'
 import app from './app'
 import * as config from './config'
+import { useGraphQL } from './graphql/api.graphql'
 import { UserCollection } from './models/user'
 import { initializeDemoUser } from './services/userService'
 
@@ -27,6 +28,8 @@ async function start() {
   }
 
   Instance = http.createServer(app)
+
+  await useGraphQL(app)
 
   Instance.listen(config.Port, async () => {
     console.log(`Server listening on port ${config.Port}...`)

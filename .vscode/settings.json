@@ -61,5 +61,12 @@
   },
   "[ignore]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
-  }
+  },
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json": "file:///Users/du/dev/lemon-mart-server/server/swagger.yaml"
+  },
+  "livePreview.defaultPreviewPath": "/server/src/public/index.html"
 }
