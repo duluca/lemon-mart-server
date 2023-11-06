@@ -33,7 +33,7 @@
     "test:debug": "npm run build:test && node --trace-warnings node_modules/.bin/jest --no-cache",
     "test:ci": "npm run build:test && jest --ci --reporters=default --reporters=jest-junit",
     "predocker:build": "npm test",
-    "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
+    "docker:build": "cross-conf-env docker image build --platform linux/amd64,linux/arm64 . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
     "docker:tag": " cross-conf-env docker image tag $npm_package_config_imageRepo:$npm_package_version $npm_package_config_imageRepo:latest",
     "docker:run": "run-s -c docker:clean docker:runHelper",
