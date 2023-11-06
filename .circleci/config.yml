@@ -119,7 +119,7 @@ jobs:
           name: Compose up
           command: |
             set -x
-            docker-compose up -d
+            docker compose up -d
       - run:
           name: Verify web app
           command: |
