@@ -4,7 +4,7 @@
   "description": "Easy to learn and use full-stack TypeScript with Mongo, Express, Angular and Node",
   "main": "index.js",
   "engines": {
-    "node": "^20",
+    "node": "^20 || ^21",
     "npm": "^10"
   },
   "config": {
@@ -24,7 +24,7 @@
     "start": "env-cmd node dist/src/index.js",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.src.json",
-    "copy:assets": "copyfiles -E -u 1 \"./src/public/**/*\" \"./dist/\"",
+    "copy:assets": "copyfiles -E -u 1 \"./src/public/**/*\" \"./dist/\" && copyfiles -E -u 1 \"./src/graphql/schema.graphql\" \"./dist/src/\"",
     "postbuild": "npm run copy:assets",
     "build:test": "tsc -p tests/tsconfig.test.json",
     "tsc": "tsc",

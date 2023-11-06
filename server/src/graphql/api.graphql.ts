@@ -3,11 +3,14 @@ import { expressMiddleware } from '@apollo/server/express4'
 import cors from 'cors'
 import { Express, json } from 'express'
 import { readFileSync } from 'node:fs'
+import path from 'node:path'
 import { IUser } from '../models/user'
 import { authenticate } from '../services/authService'
 import { resolvers } from './resolvers'
 
-const typeDefs = readFileSync('./src/graphql/schema.graphql', { encoding: 'utf-8' })
+const typeDefs = readFileSync(path.resolve(__dirname, 'schema.graphql').toString(), {
+  encoding: 'utf-8',
+})
 
 export const GraphQLPath = '/graphql'
 
