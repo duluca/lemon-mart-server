@@ -2,7 +2,7 @@ version: "3.7"
 services:
   database:
     container_name: lemondb
-    image: duluca/minimal-mongo:6.0.8
+    image: duluca/minimal-mongo:6.0.11
     restart: always
     env_file: .env
     ports:
