@@ -71,7 +71,7 @@
   },
   "homepage": "https://github.com/duluca/lemon-mart-server#readme",
   "dependencies": {
-    "@apollo/gateway": "^2.5.6",
+    "@apollo/gateway": "^2.5.7",
     "@apollo/server": "^4.9.5",
     "@apollo/subgraph": "^2.5.6",
     "bcryptjs": "^2.4.3",
