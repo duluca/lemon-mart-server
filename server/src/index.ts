@@ -6,7 +6,7 @@ import { useGraphQL } from './graphql/api.graphql'
 import { UserCollection } from './models/user'
 import { initializeDemoUser } from './services/userService'
 
-export let Instance: http.Server
+export let server: http.Server
 
 async function start() {
   console.log('Starting server: ')
@@ -27,11 +27,11 @@ async function start() {
     console.log(`Couldn't connect to a database: ${ex}`)
   }
 
-  Instance = http.createServer(app)
+  server = http.createServer(app)
 
   await useGraphQL(app)
 
-  Instance.listen(config.Port, async () => {
+  server.listen(config.Port, async () => {
     console.log(`Server listening on port ${config.Port}...`)
     console.log('Initializing default user...')
     await createIndexes()
