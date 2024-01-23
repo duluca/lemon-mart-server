@@ -2,7 +2,7 @@
 
 Easy to learn and use TypeScript Express.js server with REST, GraphQL, and MongoDB using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart)
 
-![Angular Version](https://img.shields.io/badge/angular-v16-326839)
+![Angular Version](https://img.shields.io/badge/angular-v17-326839)
 [![CircleCI](https://circleci.com/gh/duluca/lemon-mart-server/tree/main.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart-server/tree/main)
 [![DeepScan grade](https://deepscan.io/api/teams/1906/projects/7949/branches/88772/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1906&pid=7949&bid=88772)
 [![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart-server/badge.svg?branch=main)](https://coveralls.io/github/duluca/lemon-mart-server?branch=main)
@@ -11,7 +11,7 @@ Easy to learn and use TypeScript Express.js server with REST, GraphQL, and Mongo
 
 **Watch the video:** [Do More with Less: Full Stack TypeScript](https://youtu.be/gi1neXh0uKE?list=PLtevgo7IoQizTQdXtRKEXGguTQbL0F01_)
 
-**Get the book:** Lemon Mart Server is covered in my book _Angular for Enterprise-Ready Web Applications_. You can get it on https://AngularForEnterprise.com.
+**Get the book:** Lemon Mart Server is covered in my book _Angular for Enterprise Applications_. You can get it at [AngularForEnterprise.com](https://AngularForEnterprise.com).
 
 ## Setup
 
@@ -37,7 +37,7 @@ MONGODB_APPLICATION_PASS=app_password
 MONGO_URI=uri_to_mongodb
 ```
 
-- See more details about the MongoDB Docker container at [excellalabs/mongo](https://github.com/excellalabs/mongo-docker), which also contains instructions on how to set things up on AWS ECS.
+- See more details about the MongoDB Docker container at [duluca/minimal-mongo](https://github.com/duluca/minimal-mongo), which also contains instructions on how to set things up on AWS ECS.
 
   > In your server application, use the application information to connect to the database.
   > Sample connection URI: `mongodb://app_user:app_password@localhost:27017/app_db_name?readPreference=primary`
