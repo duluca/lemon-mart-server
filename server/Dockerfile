@@ -1,4 +1,4 @@
-FROM node:current-alpine
+FROM node:23.11.1-alpine3.21
 
 RUN apk add --update --no-progress make python3 bash
 
